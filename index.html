@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Invitación a la fiesta</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="index">
+
+    <!-- CONTADOR -->
+    <div id="countdown">
+        <iframe src="elements/countdown.html" frameborder="0" allowtransparency="true" allowfullscreen="true">
+        </iframe>
+    </div>
+
+    <!-- AUDIO -->
+    <div id="audio-container">
+        <audio id="audio1" loop>
+            <source src="assets/childlike_things.mp3" type="audio/mpeg">
+        </audio>
+        <button id="play-button" class="music-button" onclick="playMusic()">▶</button>
+        <button id="pause-button" class="music-button" onclick="pauseMusic()">Ⅱ</button>
+    </div>
+
+    <!-- BOTÓN PARA ABRIR POPUP -->
+    <button onclick="openPopup()">
+        Abrir Popup
+    </button>
+
+    <!-- POPUP -->
+    <iframe id="popup-frame" src="elements/pop-up.html" style="
+            display: none;
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            z-index: 9999;
+        ">
+    </iframe>
+
+    <script>
+
+        // Abrir popup
+        function openPopup() {
+            document.getElementById("popup-frame").style.display = "block";
+        }
+
+        // Cerrar popup
+        function closePopup() {
+            document.getElementById("popup-frame").style.display = "none";
+        }
+
+        // Iniciar música con el primer clic
+        const audio = document.getElementById("audio1");
+        window.addEventListener("click", function () {
+            if (audio && audio.paused) {
+                audio.play().catch(error => {
+                    console.log("No se pudo reproducir el audio");
+                });
+            }
+
+        }, { once: true });
+
+        const playButton = document.getElementById("play-button");
+        const pauseButton = document.getElementById("pause-button");
+
+        function updateMusicButtons() {
+            playButton.style.display = audio.paused ? "inline-block" : "none";
+            pauseButton.style.display = audio.paused ? "none" : "inline-block";
+        }
+
+        audio.addEventListener("play", updateMusicButtons);
+        audio.addEventListener("pause", updateMusicButtons);
+        updateMusicButtons();
+
+        // Función para reproducir música
+        function playMusic() {
+            if (audio) {
+                audio.play().catch(error => {
+                    console.log("No se pudo reproducir el audio");
+                });
+            }
+        }
+
+        // Función para pausar música
+        function pauseMusic() {
+            if (audio) {
+                audio.pause();
+            }
+        }
+    </script>
+
+</body>
+
+</html>

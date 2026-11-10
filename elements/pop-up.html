@@ -1,0 +1,36 @@
+
+<body>
+
+    <div id="popup-overlay">
+
+        <div id="popup">
+
+            <!-- CONTENIDO PERSONALIZABLE -->
+            <div id="popup-content">
+                1. Vestir de negro
+                2. Llegar a tiempo
+                3. Cuota y sobre
+            </div>
+
+            <!-- BOTÓN DE CIERRE -->
+            <button id="popup-close" onclick="parent.closePopup()">
+                ×
+            </button>
+
+        </div>
+
+    </div>
+
+    <script>
+        document.getElementById("popup-overlay")
+            .addEventListener("click", function(event) {
+
+                if (event.target === this) {
+                    parent.closePopup();
+                }
+
+            });
+    </script>
+
+</body>
+</html>
