@@ -1,80 +1,80 @@
+
+/* =========================================
+   FUENTE PERSONALIZADA
+========================================= */
+
 @font-face {
-  font-family: 'MissFajardose'; /* El nombre con el que la vas a usar */
-  src: url('assets/MissFajardose-Regular.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
+    font-family: 'MissFajardose';
+    src: url('assets/MissFajardose-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
 }
+
+/* =========================================
+   CONFIGURACIÓN GENERAL
+========================================= */
 
 * {
-    font-family: 'MissFajardose', cursive !important;
+    box-sizing: border-box;
 }
 
-/* BOTÓN DE MÚSICA FIJO */
-.music-button {
-    position: fixed !important;
-
-    right: 20px !important;
-    bottom: 20px !important;
-    top: auto !important;
-    left: auto !important;
-
-    width: 40px;
-    height: 40px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    background: rgba(255, 255, 255, 0.9);
-    border: none;
-    border-radius: 50%;
-
-    font-size: 25px;
-    color: #d3145a;
-    cursor: pointer;
-
-    z-index: 2147483647;
-
-    transform: none;
-}
-
-.music-button:hover {
-    transform: scale(1.1);
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100%;
+    overflow-x: hidden;
 }
 
 .index {
+    font-family: 'MissFajardose', cursive !important;
+
+    width: 100%;
+    min-height: 100vh;
+
     background-image: url('assets/svg/fondo.svg');
     background-attachment: fixed;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
 
-    width: 100%;
-    overflow-x: hidden;
+    overflow-x: clip;
 }
 
-/* Inicio */
+/* =========================================
+   ESCENA PRINCIPAL
+========================================= */
+
 .index header {
     position: relative;
-    width: 90%;
+
+    width: 100%;
     max-width: 500px;
-    margin: 30% auto 0;
+
+    margin: clamp(100px, 30vh, 300px) auto 0;
 
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-/* ESCENA PRINCIPAL */
 .invitation-scene {
     position: relative;
+
     width: 100%;
-    max-width: 100%;
+    max-width: 600px;
+
     margin: 0 auto;
+
     display: flex;
     flex-direction: column;
     align-items: center;
 }
+
+/* =========================================
+   ENCABEZADO
+========================================= */
 
 .header-background {
     position: relative;
@@ -82,46 +82,60 @@
     z-index: 2;
 }
 
-/* Cuadro: determina el tamaño del encabezado */
 .index .Square1 {
     position: relative;
     display: block;
+
     width: 100%;
     height: auto;
+
     z-index: 1;
+
+    margin-top: 10%;
 }
 
 /* XV */
+
 .index .XV {
     position: absolute;
+
     width: 60%;
     height: auto;
 
-    top: -25%;
+    top: -10%;
     left: 45%;
+
     transform: translateX(-50%);
 
     z-index: 2;
 }
 
-/* Nombre dentro del cuadro */
+/* NOMBRE */
+
 .index .Name {
     position: absolute;
+
     width: 65%;
     height: auto;
 
     top: 50%;
     left: 50%;
+
     transform: translate(-50%, -50%);
 
     z-index: 3;
 }
 
-/* Footer */
+/* =========================================
+   FOOTER Y CABALLOS
+========================================= */
+
 .index footer {
     position: relative;
+
     width: 100%;
     z-index: 2;
+
     margin-top: 0;
 }
 
@@ -149,51 +163,64 @@
     margin-top: -10%;
 }
 
-/* CUMPLEAÑERA */
+/* =========================================
+   CUMPLEAÑERA
+========================================= */
+
 .birthday-girl {
     position: relative;
     z-index: 1;
 
     width: 105%;
+
     display: flex;
     justify-content: center;
     align-items: center;
 
-    /* Permite que los caballos se superpongan */
     margin-top: -4%;
     margin-left: -3%;
 }
 
-/* ESCENA SECUNDARIA */
-/* BACKGROUND */
+/* =========================================
+   ESCENA SECUNDARIA
+========================================= */
+
 .background2 {
     position: relative;
     z-index: 1;
 
     width: 110%;
+
     display: flex;
     justify-content: center;
     align-items: center;
 
-    /* Permite que los caballos se superpongan */
     margin-top: -4%;
     margin-left: -3%;
 }
 
 /* CAPA SUPERPUESTA */
+
 .background2-overlay {
     position: absolute;
+
     inset: 0;
+
     width: 100%;
     height: 100%;
 }
 
-/* IMÁGENES GENERALES */
 .background2-overlay img {
     position: absolute;
+    height: auto;
 }
 
+/* =========================================
+   ELEMENTOS SUPERPUESTOS
+========================================= */
+
 /* DIRECCIÓN */
+
 .Address {
     width: 80%;
     top: 25%;
@@ -202,7 +229,8 @@
     z-index: 3;
 }
 
-/* MARCO DE FOTOGRAFÍA */
+/* FOTOGRAFÍA */
+
 .Birthday-Picture {
     width: 35%;
     top: 28%;
@@ -210,7 +238,8 @@
     z-index: 3;
 }
 
-/* TÍTULO RECEPCIÓN */
+/* RECEPCIÓN */
+
 .Reception {
     width: 30%;
     top: 32%;
@@ -218,7 +247,8 @@
     z-index: 3;
 }
 
-/* DIRECCIÓN */
+/* NOMBRE DE DIRECCIÓN */
+
 .AddressName {
     width: 36%;
     top: 38%;
@@ -227,6 +257,7 @@
 }
 
 /* BOTÓN UBICACIÓN */
+
 .Button-Address {
     width: 27%;
     top: 47%;
@@ -235,6 +266,7 @@
 }
 
 /* ÓVALO DE CABALLOS */
+
 .Horses-Circle {
     width: 45%;
     top: 71%;
@@ -242,40 +274,103 @@
     z-index: 5;
 }
 
-/* BOTÓN DE MÚSICA FIJO */
+/* =========================================
+   BOTÓN DE MÚSICA
+========================================= */
+
 .music-button {
     position: fixed !important;
 
-    /* POSICIÓN */
-    right: 20px !important;
-    bottom: 20px !important;
-    top: auto !important;
-    left: auto !important;
+    right: clamp(12px, 3vw, 30px) !important;
+    bottom: clamp(12px, 3vw, 30px) !important;
 
-    margin-right: 5% !important;
-    margin-bottom: 2% !important;
+    margin: 0 !important;
 
-    /* DIMENSIONES */
-    width: 10%;
-    height: 8%;
+    width: clamp(38px, 4vw, 48px);
+    height: clamp(38px, 4vw, 48px);
 
-    /* DISEÑO */
     background: rgba(255, 255, 255, 0.9);
+
     border: 1px solid rgba(211, 20, 90, 0.2);
     border-radius: 50%;
 
     color: #d3145a;
-    font-size: 10px;
+    font-size: 70%;
+
     cursor: pointer;
 
-    /* CAPA SUPERIOR */
     z-index: 2147483647;
 
-    transition: background 0.2s ease;
+    transition: background 0.2s ease, transform 0.2s ease;
 }
 
-/* EFECTO HOVER */
 .music-button:hover {
     background: #ffffff;
     transform: scale(1.1);
+}
+
+/* =========================================
+   TABLETS
+========================================= */
+
+@media screen and (min-width: 600px) {
+
+    .index header {
+        max-width: 550px;
+    }
+
+    .invitation-scene {
+        max-width: 650px;
+    }
+
+}
+
+/* =========================================
+   LAPTOPS Y ESCRITORIOS
+========================================= */
+
+@media screen and (min-width: 900px) {
+
+    .index header {
+        max-width: 500px;
+        margin-top: 100px;
+    }
+
+    .invitation-scene {
+        max-width: 600px;
+    }
+
+}
+
+/* =========================================
+   CELULARES PEQUEÑOS
+========================================= */
+
+@media screen and (max-width: 380px) {
+
+    .index header {
+        margin-top: 100px;
+    }
+
+    .music-button {
+        width: 38px;
+        height: 38px;
+    }
+
+}
+
+/* =========================================
+   PANTALLAS GRANDES
+========================================= */
+
+@media screen and (min-width: 1400px) {
+
+    .index header {
+        max-width: 550px;
+    }
+
+    .invitation-scene {
+        max-width: 650px;
+    }
+
 }
