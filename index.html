@@ -12,37 +12,66 @@
 
 <body class="index">
 
-    <!-- CONTADOR -->
-    <div id="countdown">
-        <iframe src="elements/countdown.html" frameborder="0" allowtransparency="true" allowfullscreen="true">
-        </iframe>
+    <!-- ESCENA PRINCIPAL -->
+    <div class="invitation-scene">
+
+        <!-- ENCABEZADO -->
+        <div class="header-background">
+            <header>
+                <img src="assets/first/xv.svg" class="XV header-image">
+                <img src="assets/first/square1.svg" class="Square1 header-image">
+                <img src="assets/first/name.svg" class="Name header-image">
+            </header>
+        </div>
+
+        <!-- CABALLOS -->
+        <footer>
+            <img src="assets/svg/horse.svg" class="Horse footer-image">
+        </footer>
+
+        <!-- CUMPLEAÑERA -->
+        <div class="birthday-girl">
+            <img src="assets/svg/birthday-girl.svg" class="Birthday-Girl">
+        </div>
+
+        <!-- CABALLOS -->
+        <footer>
+            <img src="assets/svg/horse.svg" class="Horse2 footer-image">
+        </footer>
+
+        <!-- ESCENA SECUNDARIA -->
+        <div class="background2">
+
+            <img src="assets/second/fondo2.svg" class="Background2">
+
+            <div class="background2-overlay">
+
+                <img src="assets/second/address.svg" class="Address">
+                <img src="assets/second/picture.svg" class="Birthday-Picture">
+                <img src="assets/second/horses-circle.svg" class="Horses-Circle">
+                <img src="assets/second/reception.svg" class="Reception">
+                <img src="assets/second/adress-name.svg" class="AddressName">
+                <img src="assets/second/button-address.svg" class="Button-Address">
+
+            </div>
+        </div>
+
+        <!-- CABALLOS -->
+        <footer>
+            <img src="assets/svg/horse.svg" class="Horse2 footer-image">
+        </footer>
+
+
     </div>
 
     <!-- AUDIO -->
     <div id="audio-container">
         <audio id="audio1" loop>
-            <source src="assets/childlike_things.mp3" type="audio/mpeg">
+            <source src="assets/music/childlike_things.mp3" type="audio/mpeg">
         </audio>
         <button id="play-button" class="music-button" onclick="playMusic()">▶</button>
         <button id="pause-button" class="music-button" onclick="pauseMusic()">Ⅱ</button>
     </div>
-
-    <!-- BOTÓN PARA ABRIR POPUP -->
-    <button onclick="openPopup()">
-        Abrir Popup
-    </button>
-
-    <!-- POPUP -->
-    <iframe id="popup-frame" src="elements/pop-up.html" style="
-            display: none;
-            position: fixed;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
-            z-index: 9999;
-        ">
-    </iframe>
 
     <script>
 

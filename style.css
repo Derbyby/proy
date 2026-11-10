@@ -9,134 +9,264 @@
     font-family: 'MissFajardose', cursive !important;
 }
 
-.index {
-    background-image: url('assets/fondo-papel.svg');
-    background-attachment: fixed;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-
-/* BOTÓN */
+/* BOTÓN DE MÚSICA FIJO */
 .music-button {
-    background: transparent;
+    position: fixed !important;
+
+    right: 20px !important;
+    bottom: 20px !important;
+    top: auto !important;
+    left: auto !important;
+
+    width: 40px;
+    height: 40px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(255, 255, 255, 0.9);
     border: none;
-    cursor: pointer;
+    border-radius: 50%;
+
     font-size: 25px;
-    color: #000;
+    color: #d3145a;
+    cursor: pointer;
+
+    z-index: 2147483647;
+
+    transform: none;
 }
 
 .music-button:hover {
     transform: scale(1.1);
 }
 
-/* POP-UP STYLE */
-/* FONDO DEL POP-UP */
-#popup-overlay {
-    position: fixed;
-    inset: 0;
+.index {
+    background-image: url('assets/svg/fondo.svg');
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
     width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.65);
+    overflow-x: hidden;
+}
+
+/* Inicio */
+.index header {
+    position: relative;
+    width: 90%;
+    max-width: 500px;
+    margin: 30% auto 0;
 
     display: flex;
     justify-content: center;
     align-items: center;
-
-    z-index: 9999;
-    padding: 15px;
-    box-sizing: border-box;
 }
 
-/* VENTANA */
-.popup {
+/* ESCENA PRINCIPAL */
+.invitation-scene {
     position: relative;
-    background: #fff0f5;
     width: 100%;
-    max-width: 450px;
-    max-height: 90vh;
-    overflow-y: auto;
-
-    padding: 35px 25px;
-    border-radius: 20px;
-    box-sizing: border-box;
-
-    text-align: center;
-    animation: aparecer 0.5s ease;
+    max-width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-/* TITULO */
-.popup h2 {
-    font-size: 40px;
-    color: #bd668b;
-    margin: 10px 0;
-}
-
-/* TEXTO */
-.popup p {
-    font-size: 25px;
-    color: #555;
-}
-
-/* IMAGEN */
-.popup img {
+.header-background {
+    position: relative;
     width: 100%;
-    max-width: 250px;
+    z-index: 2;
+}
+
+/* Cuadro: determina el tamaño del encabezado */
+.index .Square1 {
+    position: relative;
+    display: block;
+    width: 100%;
     height: auto;
-    border-radius: 15px;
-    object-fit: cover;
+    z-index: 1;
 }
 
-/* BOTON CERRAR */
-.popup-close {
+/* XV */
+.index .XV {
     position: absolute;
-    top: 10px;
-    right: 15px;
+    width: 60%;
+    height: auto;
 
-    border: none;
-    background: transparent;
-    font-size: 30px;
+    top: -25%;
+    left: 45%;
+    transform: translateX(-50%);
+
+    z-index: 2;
+}
+
+/* Nombre dentro del cuadro */
+.index .Name {
+    position: absolute;
+    width: 65%;
+    height: auto;
+
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    z-index: 3;
+}
+
+/* Footer */
+.index footer {
+    position: relative;
+    width: 100%;
+    z-index: 2;
+    margin-top: 0;
+}
+
+.index .Horse {
+    position: relative;
+    display: block;
+
+    width: 110%;
+    max-width: none;
+    height: auto;
+
+    margin-top: 20%;
+    margin-left: -5%;
+}
+
+.index .Horse2 {
+    position: relative;
+    display: block;
+
+    width: 110%;
+    max-width: none;
+    height: auto;
+
+    margin-left: -5%;
+    margin-top: -10%;
+}
+
+/* CUMPLEAÑERA */
+.birthday-girl {
+    position: relative;
+    z-index: 1;
+
+    width: 105%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* Permite que los caballos se superpongan */
+    margin-top: -4%;
+    margin-left: -3%;
+}
+
+/* ESCENA SECUNDARIA */
+/* BACKGROUND */
+.background2 {
+    position: relative;
+    z-index: 1;
+
+    width: 110%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* Permite que los caballos se superpongan */
+    margin-top: -4%;
+    margin-left: -3%;
+}
+
+/* CAPA SUPERPUESTA */
+.background2-overlay {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* IMÁGENES GENERALES */
+.background2-overlay img {
+    position: absolute;
+}
+
+/* DIRECCIÓN */
+.Address {
+    width: 80%;
+    top: 25%;
+    left: 45%;
+    transform: translateX(-45%);
+    z-index: 3;
+}
+
+/* MARCO DE FOTOGRAFÍA */
+.Birthday-Picture {
+    width: 35%;
+    top: 28%;
+    left: 13%;
+    z-index: 3;
+}
+
+/* TÍTULO RECEPCIÓN */
+.Reception {
+    width: 30%;
+    top: 32%;
+    left: 52%;
+    z-index: 3;
+}
+
+/* DIRECCIÓN */
+.AddressName {
+    width: 36%;
+    top: 38%;
+    left: 49%;
+    z-index: 3;
+}
+
+/* BOTÓN UBICACIÓN */
+.Button-Address {
+    width: 27%;
+    top: 47%;
+    left: 54%;
+    z-index: 4;
+}
+
+/* ÓVALO DE CABALLOS */
+.Horses-Circle {
+    width: 45%;
+    top: 71%;
+    left: 45%;
+    z-index: 5;
+}
+
+/* BOTÓN DE MÚSICA FIJO */
+.music-button {
+    position: fixed !important;
+
+    /* DIMENSIONES */
+    width: 20px;
+    height: 20px;
+
+    /* DISEÑO */
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(211, 20, 90, 0.2);
+    border-radius: 50%;
+
+    color: #d3145a;
+    font-size: 10px;
     cursor: pointer;
-    color: #bd668b;
+
+    /* CAPA SUPERIOR */
+    z-index: 2147483647;
+
+    transition: background 0.2s ease;
 }
 
-/* BOTON PRINCIPAL */
-.popup-button {
-    background: #bd668b;
-    color: white;
-    border: none;
-    border-radius: 30px;
-
-    padding: 12px 25px;
-    font-size: 22px;
-    cursor: pointer;
+/* EFECTO HOVER */
+.music-button:hover {
+    background: #ffffff;
+    transform: scale(1.1);
 }
-
-/* ANIMACION */
-@keyframes aparecer {
-    from {
-        opacity: 0;
-        transform: scale(0.8);
-    }
-
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-/* CELULARES */
-@media (max-width: 480px) {
-    .popup {
-        padding: 30px 18px;
-    }
-
-    .popup h2 {
-        font-size: 32px;
-    }
-
-    .popup p {
-        font-size: 21px;
-    }
-}
-
