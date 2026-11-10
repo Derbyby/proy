@@ -63,7 +63,6 @@ body {
     position: relative;
 
     width: 100%;
-    max-width: 600px;
 
     margin: 0 auto;
 
@@ -86,7 +85,7 @@ body {
     position: relative;
     display: block;
 
-    width: 100%;
+    width: 90%;
     height: auto;
 
     z-index: 1;
@@ -143,12 +142,12 @@ body {
     position: relative;
     display: block;
 
-    width: 110%;
+    width: 130%;
     max-width: none;
     height: auto;
 
     margin-top: 20%;
-    margin-left: -5%;
+    margin-left: -10%;
 }
 
 .index .Horse2 {
@@ -171,14 +170,13 @@ body {
     position: relative;
     z-index: 1;
 
-    width: 105%;
+    width: 110%;
 
     display: flex;
     justify-content: center;
     align-items: center;
 
     margin-top: -4%;
-    margin-left: -3%;
 }
 
 /* =========================================
@@ -222,10 +220,10 @@ body {
 /* DIRECCIÓN */
 
 .Address {
-    width: 80%;
+    width: 85%;
     top: 25%;
-    left: 45%;
-    transform: translateX(-45%);
+    left: 50%;
+    transform: translateX(-50%);
     z-index: 3;
 }
 
