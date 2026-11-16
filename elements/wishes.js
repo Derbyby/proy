@@ -8,6 +8,8 @@
 const WISHES_API_URL = "https://script.google.com/macros/s/AKfycbySWYPE_RdfJfdQX4f9LyBzmr3cBlgcEl2jebNopKhIcBvHhHw5fFCfZ9bD91BVoNkl-w/exec";
 
 const LOCAL_KEY = "buenos-deseos";
+const CACHE_KEY = "buenos-deseos-cache";   // copia local de la última lista descargada
+const REFRESH_MS = 30 * 1000;              // al abrir, se actualiza si la copia tiene más de 30 s
 const MAX_NOMBRE = 60;
 const MAX_MENSAJE = 300;
 
@@ -36,7 +38,7 @@ function closeModal(modal) {
 
 document.getElementById("open-wishes").addEventListener("click", () => {
     openModal(wishesModal);
-    loadWishes();
+    showWishes();
 });
 
 let formOpenedAt = 0;
@@ -84,12 +86,49 @@ function saveLocalWish(wish) {
     } catch { /* almacenamiento no disponible */ }
 }
 
+/* ---------- Caché: la lista se descarga antes de abrir la ventana ---------- */
+
+let wishesData = null;       // última lista conocida
+let wishesFetchedAt = 0;     // cuándo se descargó
+let wishesRequest = null;    // descarga en curso (para no pedirla dos veces)
+
+function readCache() {
+    try {
+        const c = JSON.parse(localStorage.getItem(CACHE_KEY));
+        if (c && Array.isArray(c.wishes)) {
+            wishesData = c.wishes;
+            wishesFetchedAt = c.t || 0;
+        }
+    } catch { /* sin caché */ }
+}
+
+function writeCache(wishes) {
+    try {
+        localStorage.setItem(CACHE_KEY, JSON.stringify({ t: Date.now(), wishes }));
+    } catch { /* almacenamiento no disponible */ }
+}
+
 async function fetchWishes() {
     if (!WISHES_API_URL) return getLocalWishes();
     const res = await fetch(`${WISHES_API_URL}?t=${Date.now()}`);
     const data = await res.json();
     if (!data.ok) throw new Error(data.error || "Error al cargar");
     return data.wishes;
+}
+
+// Descarga la lista una sola vez a la vez; si ya hay una en curso, reutiliza esa
+function refreshWishes() {
+    if (!wishesRequest) {
+        wishesRequest = fetchWishes()
+            .then(wishes => {
+                wishesData = wishes;
+                wishesFetchedAt = Date.now();
+                writeCache(wishes);
+                return wishes;
+            })
+            .finally(() => { wishesRequest = null; });
+    }
+    return wishesRequest;
 }
 
 async function sendWish(wish) {
@@ -137,15 +176,47 @@ function renderWishes(wishes) {
     });
 }
 
-async function loadWishes() {
-    wishesList.innerHTML = '<p class="wishes-empty">Cargando buenos deseos…</p>';
-    try {
-        renderWishes(await fetchWishes());
-    } catch (err) {
-        console.error(err);
-        wishesList.innerHTML = '<p class="wishes-empty">No se pudieron cargar los mensajes. Intenta de nuevo más tarde.</p>';
+// Tarjetas "fantasma" mientras llega la primera descarga
+function renderSkeleton() {
+    wishesList.innerHTML = "";
+    for (let i = 0; i < 3; i++) {
+        const card = document.createElement("div");
+        card.className = "wish-card wish-card--skeleton";
+        card.innerHTML = '<span class="sk sk-name"></span><span class="sk sk-line"></span><span class="sk sk-line sk-short"></span>';
+        wishesList.appendChild(card);
     }
 }
+
+// Al abrir la ventana: muestra al instante lo que ya se tiene y actualiza en segundo plano
+async function showWishes() {
+    if (wishesData) {
+        renderWishes(wishesData);
+        if (Date.now() - wishesFetchedAt < REFRESH_MS) return;
+    } else {
+        renderSkeleton();
+    }
+
+    const before = JSON.stringify(wishesData);
+    try {
+        const wishes = await refreshWishes();
+        if (wishesModal.classList.contains("is-open") && JSON.stringify(wishes) !== before) {
+            renderWishes(wishes);
+        }
+    } catch (err) {
+        console.error(err);
+        if (!wishesData) {
+            wishesList.innerHTML = '<p class="wishes-empty">No se pudieron cargar los mensajes. Intenta de nuevo más tarde.</p>';
+        }
+    }
+}
+
+// Compatibilidad con el nombre anterior
+const loadWishes = showWishes;
+
+// Precarga: en cuanto abre la página se usa la copia guardada y se descarga
+// la lista nueva en segundo plano, mientras el invitado ve el sobre.
+readCache();
+refreshWishes().catch(err => console.warn("Precarga de buenos deseos:", err));
 
 /* ---------- Enviar formulario ---------- */
 
@@ -178,8 +249,11 @@ wishForm.addEventListener("submit", async e => {
             wishStatus.textContent = "¡Gracias! Tu mensaje se publicará en cuanto sea revisado.";
             setTimeout(() => closeModal(wishFormModal), 3000);
         } else {
+            // Publicado al instante: se agrega arriba sin esperar a Google
+            wishesData = [{ nombre, mensaje }, ...(wishesData || [])];
+            writeCache(wishesData);
+            renderWishes(wishesData);
             closeModal(wishFormModal);
-            loadWishes();
         }
     } catch (err) {
         console.error(err);

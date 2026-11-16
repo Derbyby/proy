@@ -213,7 +213,29 @@ function aprobarTodos() {
 /* ---------- API ---------- */
 
 // GET -> solo los deseos aprobados (el más reciente primero)
+// La respuesta se guarda 60 s en caché: leer la hoja es lo más lento,
+// así que casi todas las visitas reciben la lista sin tocarla.
+const CACHE_DESEOS = "deseos_json";
+const CACHE_SEGUNDOS = 60;
+
+function borrarCacheDeseos_() {
+  try { CacheService.getScriptCache().remove(CACHE_DESEOS); } catch (err) {}
+}
+
+// Al aprobar/editar en la hoja se borra la caché para que el cambio se vea enseguida.
+// (Solo funciona si el script se creó desde la hoja; si usas ID_HOJA, el cambio
+//  tarda como máximo CACHE_SEGUNDOS en aparecer.)
+function onEdit() {
+  borrarCacheDeseos_();
+}
+
 function doGet() {
+  const cache = CacheService.getScriptCache();
+  const guardado = cache.get(CACHE_DESEOS);
+  if (guardado) {
+    return ContentService.createTextOutput(guardado).setMimeType(ContentService.MimeType.JSON);
+  }
+
   const sheet = getSheet_();
   const n = sheet.getLastRow() - 1;
   if (n < 1) return json_({ ok: true, wishes: [] });
@@ -226,7 +248,9 @@ function doGet() {
     .map(r => ({ nombre: String(r[COL.NOMBRE - 1]), mensaje: String(r[COL.MENSAJE - 1]) }))
     .reverse();
 
-  return json_({ ok: true, wishes: wishes });
+  const texto = JSON.stringify({ ok: true, wishes: wishes });
+  try { cache.put(CACHE_DESEOS, texto, CACHE_SEGUNDOS); } catch (err) { /* lista muy grande para la caché */ }
+  return ContentService.createTextOutput(texto).setMimeType(ContentService.MimeType.JSON);
 }
 
 // POST -> guardar un deseo nuevo como pendiente
@@ -263,7 +287,10 @@ function doPost(e) {
       // El apóstrofo inicial evita que Sheets interprete el texto como fórmula
       sheet.appendRow([new Date(), "'" + nombre, "'" + mensaje, CONFIG.AUTO_APROBAR]);
       sheet.getRange(sheet.getLastRow(), COL.APROBADO).insertCheckboxes();
-      if (CONFIG.AUTO_APROBAR) sheet.getRange(sheet.getLastRow(), COL.APROBADO).setValue(true);
+      if (CONFIG.AUTO_APROBAR) {
+        sheet.getRange(sheet.getLastRow(), COL.APROBADO).setValue(true);
+        borrarCacheDeseos_();   // que el nuevo mensaje aparezca en la siguiente carga
+      }
     } finally {
       lock.releaseLock();
     }
