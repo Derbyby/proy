@@ -3,129 +3,252 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
-    <title>XV's Maria Elena</title>
+    <title>Mis XV Años · María Elena</title>
+    <meta name="description" content="Invitación a los XV años de María Elena · 5 de diciembre de 2026">
+    <meta name="theme-color" content="#f8a8cd">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital@0;1&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="style.css">
 </head>
 
-<body class="index">
+<!--
+    ARCHIVOS DECORATIVOS PENDIENTES
+    Todo lo que tiene data-asset="assets/xv/..." se carga solo cuando el archivo existe.
+    Mientras no exista se muestra un respaldo hecho en CSS (o nada, si es solo decoración).
+    Lista completa de nombres y medidas: assets/xv/LEEME.md
+-->
 
-    <!-- ESCENA PRINCIPAL -->
-    <div class="invitation-scene">
+<body class="is-sealed">
 
-        <!-- ENCABEZADO -->
-        <div class="header-background">
-            <header>
-                <img src="assets/first/xv.svg" class="XV header-image">
-                <img src="assets/first/square1.svg" class="Square1 header-image">
-                <img src="assets/first/name.svg" class="Name header-image">
-            </header>
+    <main class="page">
+
+        <!-- =========================================
+             PORTADA + SOBRE
+        ========================================== -->
+        <section class="hero">
+
+            <p class="hero-pretitle">Mis XV Años</p>
+            <h1 class="hero-name">María Elena</h1>
+
+            <div class="envelope-stage">
+
+                <!-- Flor detrás del sobre (decorativa) -->
+                <span class="decor decor--flor-sobre" data-asset="assets/xv/flor-sobre.svg" aria-hidden="true"></span>
+
+                <button type="button" id="envelope" class="envelope" aria-label="Abrir invitación">
+
+                    <span class="env-back"></span>
+
+                    <!-- Solapa: cara exterior (cerrado) y forro interior (abierto) -->
+                    <span class="env-flap">
+                        <span class="env-flap-face env-flap-out"></span>
+                        <span class="env-flap-face env-flap-in" data-asset="assets/xv/forro-sobre.svg"></span>
+                    </span>
+
+                    <!-- Tarjeta que sale del sobre -->
+                    <span class="env-card-clip">
+                        <span class="env-card">
+                            <img src="assets/xv/foto-sobre.jpg" alt="María Elena con su caballo" class="env-photo">
+                            <span class="env-date">5-12-2026</span>
+                        </span>
+                    </span>
+
+                    <span class="env-front"></span>
+
+                    <!-- Sello de cera -->
+                    <span class="env-seal" data-asset="assets/xv/sello.svg">
+                        <span class="env-seal-text">ME</span>
+                    </span>
+                </button>
+
+                <!-- Mariposas (decorativas) -->
+                <span class="decor decor--mariposas" data-asset="assets/xv/mariposas.svg" aria-hidden="true">
+                    <svg class="fallback-butterflies" viewBox="0 0 60 60" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round">
+                        <path d="M18 20c-6-9-16-8-15-1 1 6 8 8 13 6-5 3-7 9-3 11 4 2 7-4 7-9" />
+                        <path d="M18 20c2-8 10-12 13-7 2 5-4 9-10 10" />
+                        <path d="M38 40c-5-6-13-5-12 0 1 4 6 6 10 4-3 3-4 7-1 8 3 1 5-3 5-7" />
+                        <path d="M38 40c1-6 8-9 10-5 1 4-3 7-8 7" />
+                    </svg>
+                </span>
+            </div>
+
+            <p class="open-hint">Toca el sobre para abrir</p>
+            <p class="scroll-hint" aria-hidden="true">Desliza<span class="scroll-arrow"></span></p>
+        </section>
+
+
+        <!-- =========================================
+             CONTENIDO (se muestra al abrir el sobre)
+        ========================================== -->
+        <div class="content" id="content">
+
+            <!-- CONTADOR -->
+            <section class="section">
+                <div class="frame frame--counter" data-asset="assets/xv/marco-contador.svg" data-reveal="zoom">
+                    <p class="frame-title">Faltan:</p>
+                    <div class="countdown" id="countdown">
+                        <div class="cd-unit"><span id="cd-days">00</span><small>días</small></div>
+                        <span class="cd-sep">:</span>
+                        <div class="cd-unit"><span id="cd-hours">00</span><small>horas</small></div>
+                        <span class="cd-sep">:</span>
+                        <div class="cd-unit"><span id="cd-minutes">00</span><small>min</small></div>
+                        <span class="cd-sep">:</span>
+                        <div class="cd-unit"><span id="cd-seconds">00</span><small>seg</small></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- POLAROIDS -->
+            <section class="section polaroids">
+                <figure class="polaroid polaroid--left" data-reveal="left">
+                    <img src="assets/xv/foto-polaroid-1.jpg" alt="María Elena en el campo" loading="lazy">
+                </figure>
+                <figure class="polaroid polaroid--right" data-reveal="right">
+                    <img src="assets/xv/foto-polaroid-2.jpg" alt="María Elena a caballo" loading="lazy">
+                </figure>
+            </section>
+
+            <!-- ITINERARIO -->
+            <section class="section">
+                <div class="frame frame--itinerary" data-asset="assets/xv/marco-itinerario.svg" data-reveal="up">
+                    <h2 class="frame-title">Itinerario</h2>
+
+                    <div class="event">
+                        <p class="event-name">Misa</p>
+                        <p class="event-time">6:00 pm</p>
+                        <span class="event-icon" data-asset="assets/xv/icono-misa.svg" aria-hidden="true">
+                            <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+                                <path d="M32 4v10M27 8h10" />
+                                <path d="M20 26l12-12 12 12" />
+                                <path d="M22 24v34h20V24" />
+                                <path d="M10 58V38l12-8M54 58V38l-12-8" />
+                                <path d="M28 58V46a4 4 0 0 1 8 0v12M6 58h52" />
+                                <path d="M15 44v6M49 44v6" />
+                                <circle cx="32" cy="32" r="3" />
+                            </svg>
+                        </span>
+                        <a class="map-button" id="map-misa" target="_blank" rel="noopener">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a7 7 0 0 0-7 7c0 5.3 7 13 7 13s7-7.7 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>
+                            Ubicación
+                        </a>
+                    </div>
+
+                    <div class="event">
+                        <p class="event-name">Recepción</p>
+                        <p class="event-time">9:00 pm</p>
+                        <span class="event-icon" data-asset="assets/xv/icono-recepcion.svg" aria-hidden="true">
+                            <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+                                <path d="M30 6h24l-2 10a10 10 0 0 1-20 0z" />
+                                <path d="M33 13h18" />
+                                <path d="M42 26v14M36 42h12" />
+                                <path d="M8 58l6-14c2-4 6-6 10-5l8 2c2 .6 2 3.5-.5 3.8L24 46" />
+                                <path d="M14 44l10 2 10-6c2-1.2 4 1 2.6 2.8L28 52l-14 6" />
+                            </svg>
+                        </span>
+                        <a class="map-button" id="map-recepcion" target="_blank" rel="noopener">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a7 7 0 0 0-7 7c0 5.3 7 13 7 13s7-7.7 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>
+                            Ubicación
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- FOTO CON CABALLO -->
+            <section class="section section--bleed">
+                <img src="assets/xv/foto-caballo.jpg" alt="María Elena acariciando a su caballo" class="photo-bleed" loading="lazy" data-reveal="fade">
+            </section>
+
+            <!-- PETICIONES ESPECIALES -->
+            <section class="section requests">
+                <span class="decor decor--flor-1" data-asset="assets/xv/flor-1.svg" aria-hidden="true" data-reveal="fade"></span>
+
+                <div class="frame frame--requests" data-asset="assets/xv/marco-peticiones.svg" data-reveal="left">
+                    <h2 class="frame-title frame-title--small">Peticiones<br>Especiales</h2>
+                    <p>Código de vestimenta:<br>Color Negro</p>
+                    <p>No niños<br>Llegar a tiempo</p>
+                </div>
+            </section>
+
+            <!-- MESA DE REGALOS -->
+            <section class="section gifts">
+                <span class="decor decor--flor-2" data-asset="assets/xv/flor-2.svg" aria-hidden="true" data-reveal="fade"></span>
+
+                <div class="frame frame--gifts" data-asset="assets/xv/marco-regalos.svg" data-reveal="right">
+                    <p>Mesa de regalos<br>y<br>Lluvia de sobres</p>
+                </div>
+            </section>
+
+            <!-- BUENOS DESEOS (botón) -->
+            <section class="section wishes-section">
+                <button type="button" id="open-wishes" class="wishes-open-button" data-reveal="up">
+                    <span class="wishes-open-title">Buenos Deseos</span>
+                    <span class="wishes-open-sub">Toca para ver y dejar un mensaje</span>
+                </button>
+            </section>
+
+            <!-- FOTO FINAL -->
+            <section class="section section--bleed section--last">
+                <img src="assets/xv/foto-final.jpg" alt="María Elena con su vestido" class="photo-bleed" loading="lazy" data-reveal="fade">
+            </section>
+
         </div>
+    </main>
 
-        <!-- CABALLOS -->
-        <footer>
-            <img src="assets/svg/horse.svg" class="Horse footer-image">
-        </footer>
 
-        <!-- CUMPLEAÑERA -->
-        <div class="birthday-girl">
-            <img src="assets/svg/birthday-girl.svg" class="Birthday-Girl">
-        </div>
+    <!-- MODAL: LISTA DE BUENOS DESEOS -->
+    <div id="wishes-modal" class="wish-modal" aria-hidden="true">
+        <div class="wish-dialog" role="dialog" aria-modal="true" aria-labelledby="wishes-title">
+            <div class="wish-dialog-header">
+                <h2 id="wishes-title" class="wish-dialog-title">Buenos Deseos</h2>
+                <button type="button" class="wish-close" data-close aria-label="Cerrar">&times;</button>
+            </div>
 
-        <!-- CABALLOS -->
-        <footer>
-            <img src="assets/svg/horse.svg" class="Horse2 footer-image">
-        </footer>
+            <div id="wishes-list" class="wishes-list"></div>
 
-        <!-- ESCENA SECUNDARIA -->
-        <div class="background2">
-
-            <img src="assets/second/fondo2.svg" class="Background2">
-
-            <div class="background2-overlay">
-
-                <img src="assets/second/address.svg" class="Address">
-                <img src="assets/second/picture.svg" class="Birthday-Picture">
-                <img src="assets/second/horses-circle.svg" class="Horses-Circle">
-                <img src="assets/second/reception.svg" class="Reception">
-                <img src="assets/second/adress-name.svg" class="AddressName">
-                <a href="https://maps.app.goo.gl/GHx2wh75Nm3DNwnQA?g_st=ac" target="_blank">
-                    <img src="assets/second/button-address.svg" class="Button-Address">
-                </a>
-
+            <div class="wish-dialog-footer">
+                <button type="button" id="open-wish-form" class="wish-outline-button">ENVIAR BUENOS DESEOS</button>
             </div>
         </div>
-
-        <!-- CABALLOS -->
-        <footer>
-            <img src="assets/svg/horse.svg" class="Horse2 footer-image">
-        </footer>
-
-
     </div>
+
+    <!-- MODAL: FORMULARIO -->
+    <div id="wish-form-modal" class="wish-modal wish-modal--top" aria-hidden="true">
+        <div class="wish-dialog wish-dialog--form" role="dialog" aria-modal="true" aria-labelledby="wish-form-title">
+            <button type="button" class="wish-close wish-close--corner" data-close aria-label="Cerrar">&times;</button>
+
+            <form id="wish-form" class="wish-form" autocomplete="off">
+                <h2 id="wish-form-title" class="wish-form-title">Enviar Buenos Deseos</h2>
+
+                <label for="wish-nombre">Nombre</label>
+                <input id="wish-nombre" name="nombre" type="text" maxlength="60" placeholder="Familia Hernández" required>
+
+                <label for="wish-mensaje">Mensaje de buenos deseos</label>
+                <textarea id="wish-mensaje" name="mensaje" rows="4" maxlength="300" placeholder="Escribe aquí tu mensaje..." required></textarea>
+
+                <p id="wish-status" class="wish-status" aria-live="polite"></p>
+
+                <button type="submit" id="wish-submit" class="wish-outline-button">ENVIAR</button>
+            </form>
+        </div>
+    </div>
+
 
     <!-- AUDIO -->
     <div id="audio-container">
-        <audio id="audio1" loop>
+        <audio id="audio1" loop preload="auto">
             <source src="assets/music/sweet-creature.mp3" type="audio/mpeg">
         </audio>
-        <button id="play-button" class="music-button" onclick="playMusic()">▶</button>
-        <button id="pause-button" class="music-button" onclick="pauseMusic()">Ⅱ</button>
+        <button id="play-button" class="music-button" aria-label="Reproducir música">▶</button>
+        <button id="pause-button" class="music-button" aria-label="Pausar música">Ⅱ</button>
     </div>
 
-    <script>
-
-        // Abrir popup
-        function openPopup() {
-            document.getElementById("popup-frame").style.display = "block";
-        }
-
-        // Cerrar popup
-        function closePopup() {
-            document.getElementById("popup-frame").style.display = "none";
-        }
-
-        // Iniciar música con el primer clic
-        const audio = document.getElementById("audio1");
-        window.addEventListener("click", function () {
-            if (audio && audio.paused) {
-                audio.play().catch(error => {
-                    console.log("No se pudo reproducir el audio");
-                });
-            }
-
-        }, { once: true });
-
-        const playButton = document.getElementById("play-button");
-        const pauseButton = document.getElementById("pause-button");
-
-        function updateMusicButtons() {
-            playButton.style.display = audio.paused ? "inline-block" : "none";
-            pauseButton.style.display = audio.paused ? "none" : "inline-block";
-        }
-
-        audio.addEventListener("play", updateMusicButtons);
-        audio.addEventListener("pause", updateMusicButtons);
-        updateMusicButtons();
-
-        // Función para reproducir música
-        function playMusic() {
-            if (audio) {
-                audio.play().catch(error => {
-                    console.log("No se pudo reproducir el audio");
-                });
-            }
-        }
-
-        // Función para pausar música
-        function pauseMusic() {
-            if (audio) {
-                audio.pause();
-            }
-        }
-    </script>
+    <script src="main.js"></script>
+    <script src="wishes.js"></script>
 
 </body>
 

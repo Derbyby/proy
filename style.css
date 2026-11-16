@@ -1,20 +1,54 @@
-
 /* =========================================
-   FUENTE PERSONALIZADA
+   FUENTES
 ========================================= */
 
+/* Letra manuscrita (ya existía en el proyecto) */
 @font-face {
     font-family: 'MissFajardose';
     src: url('assets/MissFajardose-Regular.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
+    font-display: swap;
+}
+
+/* Espacio para la fuente del diseño (Century Schoolbook).
+   Si exportan el archivo a assets/fonts/CenturySchoolbook.ttf se usa automáticamente;
+   si no, se usa la instalada en el equipo o Libre Baskerville (Google Fonts). */
+@font-face {
+    font-family: 'Century XV';
+    src: local('Century Schoolbook'),
+         local('CenturySchoolbook'),
+         url('assets/fonts/CenturySchoolbook.ttf') format('truetype');
+    font-display: swap;
 }
 
 /* =========================================
-   CONFIGURACIÓN GENERAL
+   VARIABLES
 ========================================= */
 
-* {
+:root {
+    --script: 'MissFajardose', cursive;
+    --serif: 'Century XV', 'Libre Baskerville', Georgia, serif;
+
+    --pink-title: #f4a0c6;
+    --pink-frame: #f6a5ca;
+    --pink-border: #e2806f;
+    --pink-deep: #dd528d;
+    --pink-text: #e0619b;
+    --pink-soft: #fdd7e8;
+
+    --env-body: #fbc6de;
+    --env-front: #ffd3e7;
+    --env-flap: #f9bcd8;
+
+    --ease-out: cubic-bezier(.2, .8, .2, 1);
+}
+
+/* =========================================
+   BASE
+========================================= */
+
+*,
+*::before,
+*::after {
     box-sizing: border-box;
 }
 
@@ -22,254 +56,779 @@ html,
 body {
     margin: 0;
     padding: 0;
-    width: 100%;
-    min-height: 100%;
-    overflow-x: hidden;
 }
 
-.index {
-    font-family: 'MissFajardose', cursive !important;
-
-    width: 100%;
+body {
     min-height: 100vh;
+    overflow-x: hidden;
 
-    background-image: url('assets/svg/fondo.svg');
-    background-attachment: fixed;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
+    background: #ececec;
 
-    overflow-x: clip;
+    font-family: var(--serif);
+    color: var(--pink-text);
+
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Textura de papel fija (sin cortes al repetir) */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: #ececec url('assets/xv/papel.jpg') center / cover no-repeat;
+}
+
+body.is-sealed {
+    overflow: hidden;
+}
+
+img {
+    max-width: 100%;
+}
+
+.page {
+    position: relative;
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto;
+    overflow: hidden;
 }
 
 /* =========================================
-   ESCENA PRINCIPAL
+   ARCHIVOS EXPORTADOS (data-asset)
 ========================================= */
 
-.index header {
-    position: relative;
-
-    width: 100%;
-    max-width: 500px;
-
-    margin: clamp(100px, 30vh, 300px) auto 0;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.decor {
+    position: absolute;
+    pointer-events: none;
+    background: var(--asset) center / contain no-repeat;
 }
 
-.invitation-scene {
+.decor:not(.asset-ok) {
+    display: none;
+}
+
+.decor.asset-ok > svg {
+    display: none;
+}
+
+/* =========================================
+   PORTADA
+========================================= */
+
+.hero {
     position: relative;
-
-    width: 100%;
-
-    margin: 0 auto;
+    min-height: 100vh;
+    min-height: 100svh;
 
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+
+    padding: 40px 0 70px;
+    text-align: center;
+}
+
+.hero-pretitle {
+    margin: 0;
+    font-size: clamp(1.6rem, 7.5vw, 2.1rem);
+    color: var(--pink-title);
+    animation: fade-down 1s var(--ease-out) both;
+}
+
+.hero-name {
+    margin: 0;
+    font-family: var(--script);
+    font-weight: normal;
+    font-size: clamp(4rem, 19vw, 5.6rem);
+    line-height: 1;
+    color: var(--pink-title);
+    animation: fade-down 1s var(--ease-out) .15s both;
 }
 
 /* =========================================
-   ENCABEZADO
+   SOBRE
 ========================================= */
 
-.header-background {
+.envelope-stage {
+    --w: min(72vw, 300px);
+
     position: relative;
-    width: 100%;
-    z-index: 2;
+    width: var(--w);
+    margin-top: calc(var(--w) * .5);
+
+    animation: fade-up 1s var(--ease-out) .35s both;
 }
 
-.index .Square1 {
+.envelope {
     position: relative;
     display: block;
 
-    width: 90%;
-    height: auto;
+    width: var(--w);
+    height: calc(var(--w) * .64);
 
-    z-index: 1;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
 
-    margin-top: 10%;
+    perspective: 900px;
+    -webkit-perspective: 900px;
 }
 
-/* XV */
+.envelope:not(.is-open):hover {
+    animation: wiggle .6s ease;
+}
 
-.index .XV {
+.envelope:focus-visible {
+    outline: 2px dashed var(--pink-deep);
+    outline-offset: 10px;
+}
+
+.envelope span {
+    display: block;
+}
+
+/* Parte trasera */
+.env-back {
     position: absolute;
+    inset: 0;
+    z-index: 0;
 
-    width: 60%;
-    height: auto;
+    background: var(--env-body);
+    border-radius: 3px;
+    box-shadow: 0 16px 34px rgba(212, 98, 150, .22);
+}
 
-    top: -10%;
-    left: 45%;
+/* Solapa */
+.env-flap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 4;
 
-    transform: translateX(-50%);
+    width: 100%;
+    height: 58%;
 
+    transform-origin: top center;
+    transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
+
+    transition:
+        transform .75s ease-in-out .3s,
+        z-index 0s linear .68s;
+}
+
+.env-flap-face {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+.env-flap-out {
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    background: linear-gradient(180deg, #fcd0e4 0%, var(--env-flap) 100%);
+}
+
+/* Forro interior (se ve al abrir) */
+.env-flap-in {
+    transform: rotateX(180deg);
+    clip-path: polygon(0 100%, 100% 100%, 50% 0);
+    background:
+        radial-gradient(circle at 20% 70%, rgba(255, 255, 255, .55) 0 6%, transparent 7%),
+        radial-gradient(circle at 70% 55%, rgba(255, 255, 255, .45) 0 4%, transparent 5%),
+        radial-gradient(circle at 45% 85%, rgba(236, 127, 176, .35) 0 5%, transparent 6%),
+        linear-gradient(0deg, #f7c1da, #fbe3ee);
+}
+
+.env-flap-in.asset-ok {
+    background: var(--asset) center / cover no-repeat;
+}
+
+/* Tarjeta: el contenedor llega muy arriba y se recorta justo en el borde
+   inferior del sobre, así la tarjeta puede salir hacia arriba sin asomarse por abajo */
+.env-card-clip {
+    position: absolute;
+    top: -150%;
+    right: 0;
+    bottom: 0;
+    left: 0;
     z-index: 2;
+    overflow: hidden;
 }
 
-/* NOMBRE */
-
-.index .Name {
+.env-card {
     position: absolute;
-
-    width: 65%;
-    height: auto;
-
-    top: 50%;
+    top: 62%;
     left: 50%;
 
-    transform: translate(-50%, -50%);
+    width: 64%;
+    padding: 6% 6% 0;
 
-    z-index: 3;
+    background: #fff;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, .12);
+
+    transform: translate(-50%, 0);
+    transition: transform 1s var(--ease-out) .95s;
 }
 
-/* =========================================
-   FOOTER Y CABALLOS
-========================================= */
-
-.index footer {
-    position: relative;
-
+.env-photo {
+    display: block;
     width: 100%;
-    z-index: 2;
-
-    margin-top: 0;
+    aspect-ratio: 1 / 1.08;
+    object-fit: cover;
+    object-position: center 25%;
 }
 
-.index .Horse {
-    position: relative;
-    display: block;
-
-    width: 130%;
-    max-width: none;
-    height: auto;
-
-    margin-top: 20%;
-    margin-left: -10%;
+.env-date {
+    padding: 4% 0 7%;
+    font-family: var(--script);
+    font-size: calc(var(--w) * .085);
+    line-height: 1;
+    color: #3b2b30;
+    text-align: center;
 }
 
-.index .Horse2 {
-    position: relative;
-    display: block;
-
-    width: 110%;
-    max-width: none;
-    height: auto;
-
-    margin-left: -5%;
-    margin-top: -10%;
-}
-
-/* =========================================
-   CUMPLEAÑERA
-========================================= */
-
-.birthday-girl {
-    position: relative;
-    z-index: 1;
-
-    width: 110%;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    margin-top: -4%;
-}
-
-/* =========================================
-   ESCENA SECUNDARIA
-========================================= */
-
-.background2 {
-    position: relative;
-    z-index: 1;
-
-    width: 110%;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    margin-top: -4%;
-    margin-left: -3%;
-}
-
-/* CAPA SUPERPUESTA */
-
-.background2-overlay {
+/* Frente (bolsillo) */
+.env-front {
     position: absolute;
-
     inset: 0;
+    z-index: 3;
 
+    clip-path: polygon(0 0, 50% 54%, 100% 0, 100% 100%, 0 100%);
+    background:
+        linear-gradient(to top right, transparent calc(50% - 1px), rgba(214, 140, 175, .45) 50%, transparent calc(50% + 1px)),
+        linear-gradient(to top left, transparent calc(50% - 1px), rgba(214, 140, 175, .45) 50%, transparent calc(50% + 1px)),
+        linear-gradient(180deg, #ffd9ea, var(--env-front));
+}
+
+/* Sello */
+.env-seal {
+    position: absolute;
+    top: 58%;
+    left: 50%;
+    z-index: 5;
+
+    width: calc(var(--w) * .2);
+    aspect-ratio: 1;
+
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #f48bb7 0%, #d4497f 55%, #a72a5d 100%);
+    box-shadow:
+        0 3px 8px rgba(120, 20, 60, .35),
+        inset 0 0 0 calc(var(--w) * .012) rgba(255, 255, 255, .18);
+
+    transform: translate(-50%, -50%);
+    transition: opacity .35s ease, transform .45s ease;
+}
+
+.env-seal-text {
+    font-family: var(--script);
+    font-size: calc(var(--w) * .085);
+    color: #fde6f0;
+    line-height: 1;
+}
+
+.env-seal.asset-ok {
+    background: var(--asset) center / contain no-repeat;
+    box-shadow: none;
+}
+
+.env-seal.asset-ok .env-seal-text {
+    display: none;
+}
+
+/* --- Estado abierto --- */
+.envelope.is-open {
+    cursor: default;
+}
+
+.envelope.is-open .env-seal {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.5);
+}
+
+.envelope.is-open .env-flap {
+    transform: rotateX(180deg);
+    z-index: 1;
+}
+
+.envelope.is-open .env-card {
+    transform: translate(-50%, -66%);
+}
+
+/* Decoración alrededor del sobre */
+.decor--flor-sobre {
+    top: -95%;
+    right: -22%;
+    width: 48%;
+    height: 150%;
+    z-index: -1;
+}
+
+.decor--mariposas {
+    left: -14%;
+    bottom: -18%;
+    width: 26%;
+    height: 40%;
+    z-index: 6;
+    color: #ec7fb0;
+}
+
+.decor--mariposas:not(.asset-ok) {
+    display: block;
+}
+
+.fallback-butterflies {
     width: 100%;
     height: 100%;
 }
 
-.background2-overlay img {
+.envelope-stage .decor--mariposas {
+    animation: flutter 3s ease-in-out infinite;
+}
+
+/* Textos de ayuda */
+.open-hint {
+    margin: 34px 0 0;
+    font-size: .8rem;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--pink-title);
+
+    animation: pulse 2s ease-in-out 1.4s infinite;
+    transition: opacity .4s ease;
+}
+
+body.is-opening .open-hint,
+body.is-opened .open-hint {
+    animation: none;
+    opacity: 0;
+}
+
+.scroll-hint {
     position: absolute;
-    height: auto;
+    bottom: 22px;
+    left: 50%;
+
+    margin: 0;
+    font-size: .75rem;
+    letter-spacing: .25em;
+    text-transform: uppercase;
+    color: var(--pink-title);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+
+    opacity: 0;
+    transform: translateX(-50%);
+    transition: opacity .8s ease .3s;
+}
+
+.scroll-arrow {
+    width: 12px;
+    height: 12px;
+    border-right: 1.5px solid currentColor;
+    border-bottom: 1.5px solid currentColor;
+    transform: rotate(45deg);
+    animation: bounce 1.6s ease-in-out infinite;
+}
+
+body.is-opened .scroll-hint {
+    opacity: 1;
 }
 
 /* =========================================
-   ELEMENTOS SUPERPUESTOS
+   CONTENIDO
 ========================================= */
 
-/* DIRECCIÓN */
+body.is-sealed .content {
+    display: none;
+}
 
-.Address {
-    width: 85%;
-    top: 25%;
+.section {
+    position: relative;
+    padding: 44px 0;
+}
+
+.section--bleed {
+    padding: 20px 0;
+}
+
+.section--last {
+    padding-bottom: 0;
+}
+
+.photo-bleed {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+/* --- Marcos (respaldo CSS mientras no exista el SVG exportado) --- */
+
+.frame {
+    position: relative;
+    margin: 0 auto;
+    text-align: center;
+    color: #fff;
+}
+
+.frame.asset-ok {
+    background: var(--asset) center / 100% 100% no-repeat !important;
+    border: 0 !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+}
+
+.frame.asset-ok::before,
+.frame.asset-ok::after {
+    display: none !important;
+}
+
+.frame-title {
+    margin: 0 0 6px;
+    font-family: var(--script);
+    font-weight: normal;
+    font-size: 2.7rem;
+    line-height: 1;
+}
+
+.frame-title--small {
+    font-size: 2.1rem;
+    margin-bottom: 14px;
+}
+
+/* Picos superior e inferior de los marcos */
+.frame--counter::before,
+.frame--counter::after,
+.frame--itinerary::before,
+.frame--itinerary::after {
+    content: "";
+    position: absolute;
     left: 50%;
-    transform: translateX(-50%);
-    z-index: 3;
+    width: 18px;
+    height: 18px;
+    background: var(--pink-frame);
+    border: 3px solid var(--pink-border);
+    transform: translateX(-50%) rotate(45deg);
 }
 
-/* FOTOGRAFÍA */
-
-.Birthday-Picture {
-    width: 35%;
-    top: 28%;
-    left: 13%;
-    z-index: 3;
+.frame--counter::before,
+.frame--itinerary::before {
+    top: -11px;
+    border-right: 0;
+    border-bottom: 0;
 }
 
-/* RECEPCIÓN */
-
-.Reception {
-    width: 30%;
-    top: 32%;
-    left: 52%;
-    z-index: 3;
+.frame--counter::after,
+.frame--itinerary::after {
+    bottom: -11px;
+    border-left: 0;
+    border-top: 0;
 }
 
-/* NOMBRE DE DIRECCIÓN */
+/* --- Contador --- */
 
-.AddressName {
-    width: 36%;
-    top: 38%;
-    left: 49%;
-    z-index: 3;
+.frame--counter {
+    width: min(86%, 390px);
+    padding: 34px 16px 28px;
+
+    background: var(--pink-frame);
+    border: 3px solid var(--pink-border);
+    border-radius: 50px;
+    outline: 2px dotted var(--pink-border);
+    outline-offset: -12px;
 }
 
-/* BOTÓN UBICACIÓN */
-
-.Button-Address {
-    width: 27%;
-    top: 47%;
-    left: 54%;
-    z-index: 4;
+.countdown {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 4px;
 }
 
-/* ÓVALO DE CABALLOS */
+.cd-unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 2.6ch;
+}
 
-.Horses-Circle {
-    width: 45%;
-    top: 71%;
-    left: 45%;
-    z-index: 5;
+.cd-unit span,
+.cd-sep {
+    font-size: clamp(2.1rem, 10vw, 2.8rem);
+    line-height: 1.05;
+    font-variant-numeric: tabular-nums;
+}
+
+.cd-unit small {
+    margin-top: 2px;
+    font-size: .62rem;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+}
+
+.countdown-done {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+/* --- Polaroids --- */
+
+.polaroids {
+    padding-top: 30px;
+    padding-bottom: 60px;
+}
+
+.polaroid {
+    width: 46%;
+    margin: 0;
+    padding: 4% 4% 15%;
+
+    background: #fff;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, .12);
+}
+
+.polaroid img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+}
+
+.polaroid--left {
+    margin-left: 7%;
+    transform: rotate(-5deg);
+}
+
+.polaroid--right {
+    margin: -22% 6% 0 auto;
+    transform: rotate(5deg);
+}
+
+/* --- Itinerario --- */
+
+.frame--itinerary {
+    width: min(76%, 330px);
+    padding: 60px 22px 56px;
+
+    background: var(--pink-frame);
+    border: 3px solid var(--pink-border);
+    border-radius: 50% / 16%;
+    outline: 2px dotted var(--pink-border);
+    outline-offset: -14px;
+}
+
+.event + .event {
+    margin-top: 14px;
+}
+
+.event-name,
+.event-time {
+    margin: 0;
+    font-size: 1.6rem;
+    line-height: 1.25;
+}
+
+.event-icon {
+    display: block;
+    width: 62px;
+    height: 62px;
+    margin: 8px auto 10px;
+    color: #e9709f;
+    background: var(--asset) center / contain no-repeat;
+}
+
+.event-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+.event-icon.asset-ok svg {
+    display: none;
+}
+
+.map-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+
+    padding: 5px 12px;
+    border-radius: 8px;
+
+    background: var(--pink-soft);
+    color: #e0679c;
+    font-size: .8rem;
+    text-decoration: none;
+
+    transition: transform .2s ease, background .2s ease;
+}
+
+.map-button:hover {
+    background: #fff;
+    transform: translateY(-1px);
+}
+
+.map-button svg {
+    width: 13px;
+    height: 13px;
+}
+
+.map-button[hidden] {
+    display: none;
+}
+
+/* --- Peticiones especiales --- */
+
+.requests {
+    padding-top: 70px;
+}
+
+.frame--requests {
+    width: 56%;
+    aspect-ratio: .72;
+    margin: 0 0 0 9%;
+    padding: 10%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    background: var(--pink-frame);
+    border: 9px dotted var(--pink-deep);
+    border-radius: 50%;
+    box-shadow:
+        0 0 0 3px var(--pink-deep),
+        inset 0 0 0 3px var(--pink-deep);
+
+    font-size: .95rem;
+    line-height: 1.3;
+}
+
+.frame--requests p {
+    margin: 0 0 12px;
+}
+
+.decor--flor-1 {
+    top: 0;
+    right: 0;
+    width: 38%;
+    height: 80%;
+}
+
+/* --- Mesa de regalos --- */
+
+.gifts {
+    padding-top: 30px;
+    padding-bottom: 60px;
+}
+
+.frame--gifts {
+    width: 58%;
+    aspect-ratio: 1.2;
+    margin: 0 6% 0 auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 2px solid #ec5f9a;
+    border-radius: 42%;
+    outline: 2px solid #ec5f9a;
+    outline-offset: 6px;
+
+    color: #e45b98;
+    font-size: 1.1rem;
+    line-height: 1.3;
+}
+
+.frame--gifts p {
+    margin: 0;
+}
+
+.decor--flor-2 {
+    top: -40%;
+    left: 0;
+    width: 42%;
+    height: 140%;
+}
+
+/* =========================================
+   ANIMACIONES DE ENTRADA (scroll)
+   Se usan translate/scale para no romper las rotaciones.
+========================================= */
+
+[data-reveal] {
+    opacity: 0;
+    transition:
+        opacity .9s ease,
+        translate 1s var(--ease-out),
+        scale 1s var(--ease-out);
+}
+
+[data-reveal="up"]    { translate: 0 40px; }
+[data-reveal="left"]  { translate: -60px 0; }
+[data-reveal="right"] { translate: 60px 0; }
+[data-reveal="zoom"]  { scale: .85; }
+
+[data-reveal].is-visible {
+    opacity: 1;
+    translate: 0 0;
+    scale: 1;
+}
+
+@keyframes fade-down {
+    from { opacity: 0; transform: translateY(-18px); }
+    to   { opacity: 1; transform: none; }
+}
+
+@keyframes fade-up {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: none; }
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: .45; }
+}
+
+@keyframes bounce {
+    0%, 100% { translate: 0 0; }
+    50%      { translate: 0 5px; }
+}
+
+@keyframes flutter {
+    0%, 100% { transform: translateY(0) rotate(0); }
+    50%      { transform: translateY(-6px) rotate(-4deg); }
+}
+
+@keyframes wiggle {
+    0%, 100% { transform: rotate(0); }
+    25%      { transform: rotate(-1.5deg); }
+    75%      { transform: rotate(1.5deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+        transition-delay: 0s !important;
+    }
 }
 
 /* =========================================
@@ -277,98 +836,330 @@ body {
 ========================================= */
 
 .music-button {
-    position: fixed !important;
+    position: fixed;
+    right: clamp(12px, 3vw, 30px);
+    bottom: clamp(12px, 3vw, 30px);
+    z-index: 900;
 
-    right: clamp(12px, 3vw, 30px) !important;
-    bottom: clamp(12px, 3vw, 30px) !important;
+    width: 44px;
+    height: 44px;
+    margin: 0;
 
-    margin: 0 !important;
-
-    width: clamp(38px, 4vw, 48px);
-    height: clamp(38px, 4vw, 48px);
-
-    background: rgba(255, 255, 255, 0.9);
-
-    border: 1px solid rgba(211, 20, 90, 0.2);
+    background: rgba(255, 255, 255, .92);
+    border: 1px solid rgba(224, 97, 155, .3);
     border-radius: 50%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, .12);
 
-    color: #d3145a;
-    font-size: 70%;
-
+    color: var(--pink-text);
+    font-size: .85rem;
     cursor: pointer;
 
-    z-index: 2147483647;
-
-    transition: background 0.2s ease, transform 0.2s ease;
+    transition: transform .2s ease;
 }
 
 .music-button:hover {
-    background: #ffffff;
-    transform: scale(1.1);
+    transform: scale(1.08);
+}
+
+body.is-sealed #audio-container {
+    display: none;
 }
 
 /* =========================================
-   TABLETS
+   PARED DE BUENOS DESEOS
 ========================================= */
 
-@media screen and (min-width: 600px) {
-
-    .index header {
-        max-width: 550px;
-    }
-
-    .invitation-scene {
-        max-width: 650px;
-    }
-
+:root {
+    --wish-pink: #e0619b;
+    --wish-pink-soft: rgba(224, 97, 155, .35);
+    --wish-cream: #fbf6f8;
 }
 
-/* =========================================
-   LAPTOPS Y ESCRITORIOS
-========================================= */
+/* ---------- Botón en la página ---------- */
 
-@media screen and (min-width: 900px) {
-
-    .index header {
-        max-width: 500px;
-        margin-top: 100px;
-    }
-
-    .invitation-scene {
-        max-width: 600px;
-    }
-
+.wishes-section {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 60px;
 }
 
-/* =========================================
-   CELULARES PEQUEÑOS
-========================================= */
+.wishes-open-button {
+    width: min(80%, 340px);
+    padding: 24px 16px 20px;
 
-@media screen and (max-width: 380px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
 
-    .index header {
-        margin-top: 100px;
-    }
+    background: var(--pink-frame);
+    border: 3px solid var(--pink-border);
+    border-radius: 40px;
+    outline: 2px dotted var(--pink-border);
+    outline-offset: -11px;
+    box-shadow: 0 8px 22px rgba(212, 98, 150, .2);
 
-    .music-button {
-        width: 38px;
-        height: 38px;
-    }
+    color: #fff;
+    font-family: var(--serif);
+    cursor: pointer;
 
+    transition: box-shadow .2s ease, translate 1s var(--ease-out), opacity .9s ease;
 }
 
-/* =========================================
-   PANTALLAS GRANDES
-========================================= */
+.wishes-open-button:hover {
+    box-shadow: 0 12px 28px rgba(212, 98, 150, .3);
+}
 
-@media screen and (min-width: 1400px) {
+.wishes-open-title {
+    font-family: var(--script);
+    font-size: clamp(2.4rem, 10vw, 3rem);
+    line-height: 1;
+}
 
-    .index header {
-        max-width: 550px;
-    }
+.wishes-open-sub {
+    font-size: .8rem;
+    letter-spacing: .04em;
+}
 
-    .invitation-scene {
-        max-width: 650px;
-    }
+/* ---------- Modales ---------- */
 
+body.modal-open {
+    overflow: hidden;
+}
+
+.wish-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+
+    background: rgba(60, 30, 45, .45);
+
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .25s ease, visibility .25s ease;
+}
+
+.wish-modal--top {
+    z-index: 1001;
+}
+
+.wish-modal.is-open {
+    opacity: 1;
+    visibility: visible;
+}
+
+.wish-dialog {
+    position: relative;
+
+    width: 100%;
+    max-width: 460px;
+    max-height: 80vh;
+
+    display: flex;
+    flex-direction: column;
+
+    background: var(--wish-cream) url('assets/xv/papel.jpg') center / cover;
+    border-radius: 18px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, .3);
+
+    color: var(--wish-pink);
+    font-family: var(--serif);
+
+    transform: translateY(20px) scale(.97);
+    transition: transform .25s ease;
+}
+
+.wish-modal.is-open .wish-dialog {
+    transform: none;
+}
+
+.wish-dialog-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px 12px;
+    border-bottom: 1px solid var(--wish-pink-soft);
+}
+
+.wish-dialog-title {
+    margin: 0;
+    font-family: var(--script);
+    font-weight: normal;
+    font-size: clamp(2.3rem, 9vw, 2.8rem);
+    line-height: 1;
+}
+
+.wish-close {
+    padding: 0 4px;
+    background: none;
+    border: 0;
+    color: var(--wish-pink);
+    font-size: 2.2rem;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.wish-close--corner {
+    position: absolute;
+    top: 10px;
+    right: 14px;
+}
+
+/* ---------- Lista ---------- */
+
+.wishes-list {
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+
+    padding: 18px 24px;
+}
+
+.wish-card {
+    padding: 14px 16px;
+    text-align: center;
+    background: rgba(255, 255, 255, .55);
+    border: 1px solid var(--wish-pink-soft);
+}
+
+.wish-name {
+    margin: 0 0 6px;
+    font-family: var(--script);
+    font-weight: normal;
+    font-size: 2rem;
+    line-height: 1.1;
+    overflow-wrap: anywhere;
+}
+
+.wish-message {
+    margin: 0;
+    font-size: .95rem;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+    white-space: pre-line;
+}
+
+.wishes-empty {
+    margin: 20px 0;
+    text-align: center;
+    font-size: .95rem;
+}
+
+.wish-dialog-footer {
+    display: flex;
+    justify-content: center;
+    padding: 14px 24px 20px;
+    border-top: 1px solid var(--wish-pink-soft);
+}
+
+/* ---------- Botón contorno ---------- */
+
+.wish-outline-button {
+    padding: 8px 20px;
+
+    background: transparent;
+    border: 1px solid var(--wish-pink);
+    outline: 1px solid var(--wish-pink);
+    outline-offset: 3px;
+
+    color: var(--wish-pink);
+    font-family: var(--serif);
+    font-size: .85rem;
+    letter-spacing: .12em;
+
+    cursor: pointer;
+    transition: background .2s ease, color .2s ease;
+}
+
+.wish-outline-button:hover:not(:disabled) {
+    background: var(--wish-pink);
+    color: #fff;
+}
+
+.wish-outline-button:disabled {
+    opacity: .6;
+    cursor: wait;
+}
+
+/* ---------- Formulario ---------- */
+
+.wish-dialog--form {
+    max-width: 420px;
+    border-radius: 6px;
+}
+
+.wish-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 34px 26px 28px;
+    overflow-y: auto;
+}
+
+.wish-form-title {
+    margin: 0 0 4px;
+    font-family: var(--script);
+    font-weight: normal;
+    font-size: clamp(2.3rem, 9vw, 2.7rem);
+    line-height: 1;
+    text-align: center;
+}
+
+.wish-form label {
+    margin-top: 6px;
+    font-size: 1.05rem;
+}
+
+.wish-form input,
+.wish-form textarea {
+    width: 100%;
+    padding: 12px 14px;
+
+    background: rgba(255, 255, 255, .5);
+    border: 1px solid var(--wish-pink-soft);
+    border-radius: 0;
+
+    color: var(--wish-pink);
+    font-family: var(--serif);
+    font-size: 1rem;
+    text-align: center;
+}
+
+.wish-form textarea {
+    min-height: 110px;
+    resize: vertical;
+}
+
+.wish-form input::placeholder,
+.wish-form textarea::placeholder {
+    color: var(--wish-pink);
+    opacity: .55;
+}
+
+.wish-form input:focus,
+.wish-form textarea:focus {
+    outline: none;
+    border-color: var(--wish-pink);
+}
+
+.wish-status {
+    min-height: 1.2em;
+    margin: 4px 0 0;
+    font-size: .9rem;
+    text-align: center;
+}
+
+.wish-form .wish-outline-button {
+    margin-top: 6px;
+    padding: 10px 46px;
 }
