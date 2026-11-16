@@ -10,9 +10,9 @@
     <meta name="theme-color" content="#f8a8cd">
 
     <!-- Favicon (mariposa) -->
-    <link rel="icon" href="favicon.svg" type="image/svg+xml">
-    <link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
-    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="icon" href="assets/favicon/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="assets/favicon/favicon-32.png" type="image/png" sizes="32x32">
+    <link rel="apple-touch-icon" href="assets/favicon/apple-touch-icon.png">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,9 +23,9 @@
 
 <!--
     ARCHIVOS DECORATIVOS PENDIENTES
-    Todo lo que tiene data-asset="assets/xv/..." se carga solo cuando el archivo existe.
+    Todo lo que tiene data-asset="assets/..." se carga solo cuando el archivo existe.
     Mientras no exista se muestra un respaldo hecho en CSS (o nada, si es solo decoración).
-    Lista completa de nombres y medidas: assets/xv/LEEME.md
+    Lista completa de archivos: assets/LEEME.md
 -->
 
 <body class="is-sealed">
@@ -42,44 +42,23 @@
 
             <div class="envelope-stage">
 
-                <!-- Flor detrás del sobre (decorativa) -->
-                <span class="decor decor--flor-sobre" data-asset="assets/xv/flor-sobre.svg" aria-hidden="true"></span>
+                <!-- Flor detrás del sobre -->
+                <span class="decor decor--flor-sobre" data-asset="assets/piezas/flor-1.svg" aria-hidden="true"></span>
 
+                <!-- SOBRE: capas de atrás hacia adelante -->
                 <button type="button" id="envelope" class="envelope" aria-label="Abrir invitación">
-
-                    <span class="env-back"></span>
-
-                    <!-- Solapa: cara exterior (cerrado) y forro interior (abierto) -->
-                    <span class="env-flap">
-                        <span class="env-flap-face env-flap-out"></span>
-                        <span class="env-flap-face env-flap-in" data-asset="assets/xv/forro-sobre.svg"></span>
-                    </span>
-
-                    <!-- Tarjeta que sale del sobre -->
+                    <img class="env-back"        src="assets/piezas/sobre/sobre-atras.svg"  alt="" draggable="false">
+                    <img class="env-flap-open"   src="assets/piezas/sobre/sobre-abajo.svg"  alt="" draggable="false">
                     <span class="env-card-clip">
-                        <span class="env-card">
-                            <img src="assets/xv/foto-sobre.jpg" alt="María Elena con su caballo" class="env-photo">
-                            <span class="env-date">5-12-2026</span>
-                        </span>
+                        <img class="env-card"    src="assets/fotos/foto-sobre.webp" alt="María Elena con su caballo · 5-12-2026" draggable="false">
                     </span>
-
-                    <span class="env-front"></span>
-
-                    <!-- Sello de cera -->
-                    <span class="env-seal" data-asset="assets/xv/sello.svg">
-                        <span class="env-seal-text">ME</span>
-                    </span>
+                    <img class="env-front"       src="assets/piezas/sobre/sobre-frente.svg" alt="" draggable="false">
+                    <img class="env-flap-closed" src="assets/piezas/sobre/sobre-solapa.svg" alt="" draggable="false">
+                    <img class="env-seal"        src="assets/piezas/sobre/sello.webp"       alt="" draggable="false">
                 </button>
 
-                <!-- Mariposas (decorativas) -->
-                <span class="decor decor--mariposas" data-asset="assets/xv/mariposas.svg" aria-hidden="true">
-                    <svg class="fallback-butterflies" viewBox="0 0 60 60" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round">
-                        <path d="M18 20c-6-9-16-8-15-1 1 6 8 8 13 6-5 3-7 9-3 11 4 2 7-4 7-9" />
-                        <path d="M18 20c2-8 10-12 13-7 2 5-4 9-10 10" />
-                        <path d="M38 40c-5-6-13-5-12 0 1 4 6 6 10 4-3 3-4 7-1 8 3 1 5-3 5-7" />
-                        <path d="M38 40c1-6 8-9 10-5 1 4-3 7-8 7" />
-                    </svg>
-                </span>
+                <!-- Mariposas -->
+                <img class="decor-img decor--mariposas" src="assets/piezas/mariposas.svg" alt="" aria-hidden="true">
             </div>
 
             <p class="open-hint">Toca el sobre para abrir</p>
@@ -94,7 +73,7 @@
 
             <!-- CONTADOR -->
             <section class="section">
-                <div class="frame frame--counter" data-asset="assets/xv/marco-contador.svg" data-reveal="zoom">
+                <div class="frame frame--counter" data-asset="assets/marcos/marco-contador.svg" data-reveal="zoom">
                     <p class="frame-title">Faltan:</p>
                     <div class="countdown" id="countdown">
                         <div class="cd-unit"><span id="cd-days">00</span><small>días</small></div>
@@ -111,22 +90,22 @@
             <!-- POLAROIDS -->
             <section class="section polaroids">
                 <figure class="polaroid polaroid--left" data-reveal="left">
-                    <img src="assets/xv/foto-polaroid-1.jpg" alt="María Elena en el campo" loading="lazy">
+                    <img src="assets/fotos/foto-polaroid-1.webp" alt="María Elena en el campo" loading="lazy">
                 </figure>
                 <figure class="polaroid polaroid--right" data-reveal="right">
-                    <img src="assets/xv/foto-polaroid-2.jpg" alt="María Elena a caballo" loading="lazy">
+                    <img src="assets/fotos/foto-polaroid-2.webp" alt="María Elena a caballo" loading="lazy">
                 </figure>
             </section>
 
             <!-- ITINERARIO -->
             <section class="section">
-                <div class="frame frame--itinerary" data-asset="assets/xv/marco-itinerario.svg" data-reveal="up">
+                <div class="frame frame--itinerary" data-asset="assets/marcos/marco-itinerario.svg" data-reveal="up">
                     <h2 class="frame-title">Itinerario</h2>
 
                     <div class="event">
                         <p class="event-name">Misa</p>
                         <p class="event-time">6:00 pm</p>
-                        <span class="event-icon" data-asset="assets/xv/icono-misa.svg" aria-hidden="true">
+                        <span class="event-icon" data-asset="assets/piezas/icono-misa.svg" aria-hidden="true">
                             <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
                                 <path d="M32 4v10M27 8h10" />
                                 <path d="M20 26l12-12 12 12" />
@@ -146,7 +125,7 @@
                     <div class="event">
                         <p class="event-name">Recepción</p>
                         <p class="event-time">9:00 pm</p>
-                        <span class="event-icon" data-asset="assets/xv/icono-recepcion.svg" aria-hidden="true">
+                        <span class="event-icon" data-asset="assets/piezas/icono-recepcion.svg" aria-hidden="true">
                             <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
                                 <path d="M30 6h24l-2 10a10 10 0 0 1-20 0z" />
                                 <path d="M33 13h18" />
@@ -165,14 +144,14 @@
 
             <!-- FOTO CON CABALLO -->
             <section class="section section--bleed">
-                <img src="assets/xv/foto-caballo.jpg" alt="María Elena acariciando a su caballo" class="photo-bleed" loading="lazy" data-reveal="fade">
+                <img src="assets/fotos/foto-caballo.svg" alt="María Elena acariciando a su caballo" class="photo-bleed" loading="lazy" data-reveal="fade">
             </section>
 
             <!-- PETICIONES ESPECIALES -->
             <section class="section requests">
-                <span class="decor decor--flor-1" data-asset="assets/xv/flor-1.svg" aria-hidden="true" data-reveal="fade"></span>
+                <span class="decor decor--flor-1" data-asset="assets/piezas/flor-1.svg" aria-hidden="true" data-reveal="fade"></span>
 
-                <div class="frame frame--requests" data-asset="assets/xv/marco-peticiones.svg" data-reveal="left">
+                <div class="frame frame--requests" data-asset="assets/marcos/marco-peticiones.svg" data-reveal="left">
                     <h2 class="frame-title frame-title--small">Peticiones<br>Especiales</h2>
                     <p>Código de vestimenta:<br>Color Negro</p>
                     <p>No niños<br>Llegar a tiempo</p>
@@ -181,10 +160,10 @@
 
             <!-- MESA DE REGALOS -->
             <section class="section gifts">
-                <span class="decor decor--flor-2" data-asset="assets/xv/flor-2.svg" aria-hidden="true" data-reveal="fade"></span>
+                <span class="decor decor--flor-2" data-asset="assets/piezas/flor-2.svg" aria-hidden="true" data-reveal="fade"></span>
 
-                <div class="frame frame--gifts" data-asset="assets/xv/marco-regalos.svg" data-reveal="right">
-                    <p>Mesa de regalos<br>y<br>Lluvia de sobres</p>
+                <div class="frame frame--gifts" data-asset="assets/marcos/marco-lluvia.svg" data-reveal="right">
+                    
                 </div>
             </section>
 
@@ -198,7 +177,7 @@
 
             <!-- FOTO FINAL -->
             <section class="section section--bleed section--last">
-                <img src="assets/xv/foto-final.jpg" alt="María Elena con su vestido" class="photo-bleed" loading="lazy" data-reveal="fade">
+                <img src="assets/fotos/foto-final.svg" alt="María Elena con su vestido" class="photo-bleed" loading="lazy" data-reveal="fade">
             </section>
 
         </div>
@@ -249,14 +228,14 @@
     <!-- AUDIO -->
     <div id="audio-container">
         <audio id="audio1" loop preload="auto">
-            <source src="assets/music/sweet-creature.mp3" type="audio/mpeg">
+            <source src="assets/musica/coldplay-ins.mp3" type="audio/mpeg">
         </audio>
         <button id="play-button" class="music-button" aria-label="Reproducir música">▶</button>
         <button id="pause-button" class="music-button" aria-label="Pausar música">Ⅱ</button>
     </div>
 
     <script src="main.js"></script>
-    <script src="wishes.js"></script>
+    <script src="elements/wishes.js"></script>
 
 </body>
 

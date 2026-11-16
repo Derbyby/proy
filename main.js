@@ -75,7 +75,7 @@ function openEnvelope() {
 
     playMusic();                       // primer toque = inicia la música
 
-    const total = reduceMotion ? 50 : 1900;
+    const total = reduceMotion ? 50 : 2100;
     setTimeout(() => {
         document.body.classList.remove("is-sealed");
         document.body.classList.add("is-opened");

@@ -31,14 +31,67 @@
  */
 
 const CONFIG = {
-  ID_HOJA: "",               // déjalo vacío si creaste el script desde la hoja
+  ID_HOJA: "1gkwf_3Hbb9aYGcCTpyAmJleptXCZZe6t519cGIlT0ok",               // déjalo vacío si creaste el script desde la hoja
   HOJA: "Deseos",
   AUTO_APROBAR: true,       // true = se publican sin revisión (no recomendado)
   NOTIFICAR_CORREO: false,   // true = te llega un correo con cada mensaje nuevo
   MAX_NOMBRE: 60,
   MAX_MENSAJE: 300,
   MAX_POR_HORA: 40,          // freno contra spam: mensajes aceptados por hora en total
-  PALABRAS_BLOQUEADAS: []    // ej. ["groseria1", "http"]: si aparecen, el mensaje se descarta
+  PALABRAS_BLOQUEADAS: [
+    "pendejo", "pendeja", "pendejos", "pendejas", "pendejada", "pendejadas",
+    "estupido", "estúpido", "estupida", "estúpida", "estupidos", "estúpidos", "estupidez",
+    "imbecil", "imbécil", "imbeciles", "imbéciles",
+    "cabron", "cabrón", "cabrona", "cabrones", "cabronas",
+    "mierda", "mierdas", "m1erda", "mierd4",
+    "pinche", "pinches",
+    "culero", "culera", "culeros", "culeras",
+    "chinga", "chingada", "chingado", "chingar", "chingas", "chingatumadre", "ctm", "ptm",
+    "puta", "puto", "putas", "putos", "puton", "putón", "putona", "putazo",
+    "maricon", "maricón", "marica", "maricas", "joto", "jotos",
+    "idiota", "idiotas",
+    "verga", "vergas", "vrg", "vergazo",
+    "mamon", "mamón", "mamona", "mamones", "mamar", "mamada", "mamadas",
+    "ojete", "ojetes",
+    "zorra", "zorras", "perra", "perras",
+    "bastardo", "bastarda", "bastardos",
+    "maldito", "maldita", "malditos", "malditas",
+    "baboso", "babosa", "babosos", "babosas",
+    "tarado", "tarada", "tarados", "taradas",
+    "naco", "naca", "nacos", "nacas",
+    "prieto", "prieta", "indio", "india",
+
+    // Contenido sexual, vulgar o inapropiado
+    "sexo", "sexual", "coger", "cojer", "follar", "culear",
+    "teta", "tetas", "chichi", "chichis", "pechos",
+    "culo", "culos", "nalgas", "ano",
+    "pene", "pito", "pitos", "riata", "pija",
+    "vagina", "panocha", "concha", "chocha",
+    "orgia", "orgía", "porn", "porno", "pornografia", "pornografía", "xxx",
+    "desnuda", "desnudo", "nudes", "pack", "packs",
+    "droga", "drogas", "marihuana", "mota", "cocaina", "cocaína", "perico", "cristal", "fentanilo",
+    "pedofilo", "pedófilo", "violacion", "violación", "violar",
+
+    // Acoso, odio y violencia
+    "muerte", "muérete", "muerete", "matar", "matate", "mátate", "matarte",
+    "suicidio", "suicidate", "suicídate",
+    "odio", "odia", "odiada", "odiado",
+    "asesinato", "asesinar",
+    "fea", "feo", "feas", "feos", "horrible", "asquerosa", "asqueroso",
+    "gorda", "gordo", "gordas", "gordos", "ballena", "cerda", "cerdo",
+    "flaca", "anorexica", "anoréxica",
+    "ridicula", "ridícula", "ridiculo", "ridículo",
+    "fracasada", "fracasado", "perdedora", "perdedor",
+    "asco", "das asco",
+
+    // Spam y enlaces
+    "http://", "https://", "www.", ".com", ".net", ".org", ".xyz", ".mx",
+    "bit.ly", "t.me", "tinyurl", "wa.me",
+    "whatsapp", "telegram", "onlyfans",
+    "dinero", "prestamo", "préstamo", "prestamos", "préstamos",
+    "crypto", "cripto", "bitcoin", "inversion", "inversión", "inversiones",
+    "casino", "apuesta", "apuestas", "gana dinero", "gratis"
+  ]    // ej. ["groseria1", "http"]: si aparecen, el mensaje se descarta
 };
 
 const COL = { FECHA: 1, NOMBRE: 2, MENSAJE: 3, APROBADO: 4 };
@@ -78,6 +131,63 @@ function limpiar_(texto, max) {
     .slice(0, max);
 }
 
+/* ---------- Filtro de palabras ---------- */
+
+// Pasa el texto a una forma comparable:
+// minúsculas, sin acentos (pero conserva la ñ), números/símbolos usados como letras
+// (p3nd3j0, put@, $exo) y letras repetidas (pendejooo -> pendejo).
+function normalizar_(texto) {
+  return String(texto || "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/n\u0303/g, "ñ")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[1!|]/g, "i")
+    .replace(/3/g, "e")
+    .replace(/[4@]/g, "a")
+    .replace(/0/g, "o")
+    .replace(/[5$]/g, "s")
+    .replace(/7/g, "t")
+    .replace(/([a-zñ])\1+/g, "$1");
+}
+
+let BLOQUEADAS_ = null;
+
+function bloqueadas_() {
+  if (!BLOQUEADAS_) {
+    BLOQUEADAS_ = CONFIG.PALABRAS_BLOQUEADAS
+      .map(p => normalizar_(p).replace(/[^a-zñ]/g, ""))
+      .filter(Boolean);
+  }
+  return BLOQUEADAS_;
+}
+
+// true si el texto contiene una palabra bloqueada
+function contieneBloqueada_(texto) {
+  const lista = bloqueadas_();
+  const norm = normalizar_(texto);
+
+  const tokens = norm.split(/[^a-zñ]+/).filter(Boolean);
+
+  // a) palabra completa: "ano" bloquea "ano" pero no "hermano" ni "año"
+  const palabras = new Set(tokens);
+
+  // b) letras sueltas seguidas se unen: "p.u.t.o" / "p u t o" -> "puto"
+  let sueltas = "";
+  tokens.concat("").forEach(t => {
+    if (t.length === 1) { sueltas += t; return; }
+    if (sueltas.length > 1) palabras.add(sueltas);
+    sueltas = "";
+  });
+
+  if (lista.some(p => palabras.has(p))) return true;
+
+  // c) palabras largas pegadas o partidas: "chinga tu madre", "pen dejo"
+  //    (solo de 6+ letras, para no bloquear palabras normales como "Indiana")
+  const pegado = tokens.join("");
+  return lista.some(p => p.length >= 6 && pegado.includes(p));
+}
+
 /* ---------- Menú en la hoja ---------- */
 
 function onOpen() {
@@ -111,6 +221,8 @@ function doGet() {
   const rows = sheet.getRange(2, 1, n, 4).getValues();
   const wishes = rows
     .filter(r => r[COL.APROBADO - 1] === true && r[COL.NOMBRE - 1] && r[COL.MENSAJE - 1])
+    // aunque esté aprobado, nunca se muestra si trae una palabra bloqueada
+    .filter(r => !contieneBloqueada_(r[COL.NOMBRE - 1] + " " + r[COL.MENSAJE - 1]))
     .map(r => ({ nombre: String(r[COL.NOMBRE - 1]), mensaje: String(r[COL.MENSAJE - 1]) }))
     .reverse();
 
@@ -132,8 +244,7 @@ function doPost(e) {
     const mensaje = limpiar_(data.mensaje, CONFIG.MAX_MENSAJE);
     if (!nombre || !mensaje) return json_({ ok: false, error: "Faltan datos" });
 
-    const texto = (nombre + " " + mensaje).toLowerCase();
-    if (CONFIG.PALABRAS_BLOQUEADAS.some(p => p && texto.includes(p.toLowerCase()))) {
+    if (contieneBloqueada_(nombre + " " + mensaje)) {
       return json_({ ok: true, pendiente: true });   // se descarta en silencio
     }
 
