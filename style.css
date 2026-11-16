@@ -1335,3 +1335,93 @@ html {
 .wish-form textarea::-webkit-scrollbar-thumb:hover {
     background: #e0619b;
 }
+
+
+/* =========================================
+   TEXTOS PROPORCIONALES A SU MARCO
+   Cada marco es un "contenedor": sus textos se miden en cqi
+   (1cqi = 1% del ancho del marco). Sin relleno en porcentaje
+   (ese se calcula sobre la sección, no sobre el marco); en su
+   lugar cada texto tiene un ancho máximo relativo al marco.
+   Así el contenido crece y se encoge junto con el marco y
+   nunca se sale, en ninguna pantalla.
+========================================= */
+
+.frame,
+.wishes-open-button {
+    container-type: inline-size;
+    padding: 0 !important;
+}
+
+.frame > *,
+.wishes-open-button > * {
+    max-width: 76%;
+}
+
+/* Contador */
+.frame--counter .frame-title { font-size: 12cqi; margin-bottom: 0; }
+.frame--counter .cd-unit span,
+.frame--counter .cd-sep { font-size: 11.5cqi; }
+.frame--counter .cd-unit small { font-size: 2.8cqi; letter-spacing: .12em; }
+.frame--counter .countdown-done { font-size: 7cqi; }
+
+/* Itinerario */
+.frame--itinerary .frame-title {
+    font-size: 13cqi;
+    margin-bottom: 3cqi;
+}
+
+.frame--itinerary .event-name,
+.frame--itinerary .event-time {
+    font-size: 8.5cqi;
+    line-height: 1.2;
+}
+
+.frame--itinerary .event + .event { margin-top: 4cqi; }
+
+.frame--itinerary .event-icon {
+    width: 19cqi;
+    height: 19cqi;
+    margin: 2.5cqi auto 3cqi;
+}
+
+.frame--itinerary .map-button {
+    gap: 1.5cqi;
+    padding: 1.6cqi 5cqi;
+    font-size: 4.6cqi;
+}
+
+.frame--itinerary .map-button svg {
+    width: 4.6cqi;
+    height: 4.6cqi;
+}
+
+/* Peticiones especiales (el óvalo interior es más angosto) */
+.frame--requests {
+    width: min(60%, 290px);
+}
+
+.frame--requests > * {
+    max-width: 68%;
+}
+
+.frame--requests .frame-title--small {
+    font-size: 10.5cqi;
+    margin-bottom: 4cqi;
+}
+
+.frame--requests p {
+    margin: 0 0 4cqi;
+    font-size: 5.8cqi;
+    line-height: 1.3;
+}
+
+/* Lluvia de sobres */
+.frame--gifts p {
+    font-size: 10cqi;
+    line-height: 1.25;
+}
+
+/* Botón de Buenos Deseos */
+.wishes-open-title { font-size: 12cqi; }
+.wishes-open-sub   { font-size: 4cqi; }
