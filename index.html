@@ -9,6 +9,11 @@
     <meta name="description" content="Invitación a los XV años de María Elena · 5 de diciembre de 2026">
     <meta name="theme-color" content="#f8a8cd">
 
+    <!-- Favicon (mariposa) -->
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital@0;1&display=swap" rel="stylesheet">
@@ -229,6 +234,9 @@
 
                 <label for="wish-mensaje">Mensaje de buenos deseos</label>
                 <textarea id="wish-mensaje" name="mensaje" rows="4" maxlength="300" placeholder="Escribe aquí tu mensaje..." required></textarea>
+
+                <!-- Campo trampa para bots: oculto para las personas -->
+                <input type="text" name="website" class="wish-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
 
                 <p id="wish-status" class="wish-status" aria-live="polite"></p>
 

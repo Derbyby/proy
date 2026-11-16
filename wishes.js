@@ -5,7 +5,7 @@
    (ver apps-script/Codigo.gs). Si se deja vacía, los
    deseos se guardan solo en este navegador (modo prueba).
 ========================================= */
-const WISHES_API_URL = "";
+const WISHES_API_URL = "https://script.google.com/macros/s/AKfycbySWYPE_RdfJfdQX4f9LyBzmr3cBlgcEl2jebNopKhIcBvHhHw5fFCfZ9bD91BVoNkl-w/exec";
 
 const LOCAL_KEY = "buenos-deseos";
 const MAX_NOMBRE = 60;
@@ -39,8 +39,11 @@ document.getElementById("open-wishes").addEventListener("click", () => {
     loadWishes();
 });
 
+let formOpenedAt = 0;
+
 document.getElementById("open-wish-form").addEventListener("click", () => {
     wishStatus.textContent = "";
+    formOpenedAt = Date.now();
     openModal(wishFormModal);
     setTimeout(() => document.getElementById("wish-nombre").focus(), 150);
 });
@@ -92,7 +95,7 @@ async function fetchWishes() {
 async function sendWish(wish) {
     if (!WISHES_API_URL) {
         saveLocalWish(wish);
-        return;
+        return { pendiente: false };
     }
     // Sin cabecera Content-Type -> text/plain, evita el preflight CORS de Apps Script
     const res = await fetch(WISHES_API_URL, {
@@ -101,6 +104,7 @@ async function sendWish(wish) {
     });
     const data = await res.json();
     if (!data.ok) throw new Error(data.error || "Error al enviar");
+    return data;
 }
 
 /* ---------- Pintar la lista ---------- */
@@ -161,10 +165,22 @@ wishForm.addEventListener("submit", async e => {
     wishStatus.textContent = "";
 
     try {
-        await sendWish({ nombre, mensaje, fecha: new Date().toISOString() });
+        const result = await sendWish({
+            nombre,
+            mensaje,
+            website: wishForm.website.value,          // trampa para bots (debe ir vacío)
+            tiempo: Date.now() - formOpenedAt         // ms que tardó en llenar el formulario
+        });
         wishForm.reset();
-        closeModal(wishFormModal);
-        loadWishes();
+
+        if (result.pendiente) {
+            // Con moderación: no aparece hasta que se apruebe
+            wishStatus.textContent = "¡Gracias! Tu mensaje se publicará en cuanto sea revisado.";
+            setTimeout(() => closeModal(wishFormModal), 3000);
+        } else {
+            closeModal(wishFormModal);
+            loadWishes();
+        }
     } catch (err) {
         console.error(err);
         wishStatus.textContent = "No se pudo enviar. Intenta de nuevo.";
