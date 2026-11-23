@@ -32,9 +32,52 @@ const musicFloat = document.getElementById("music-float");
 const progress = document.getElementById("music-progress");
 let track = 0;
 
+/* Algunos hostings (como Cloudflare Pages) entregan el mp3 de forma que el
+   navegador no deja adelantar ni atrasar. Por eso la canción se descarga
+   completa y se reproduce desde memoria, donde siempre se puede mover. */
+const songCache = {};
+
+function cacheSong(index) {
+    const url = CONFIG.canciones[index];
+    if (songCache[url]) return;
+    songCache[url] = "cargando";
+
+    fetch(url)
+        .then(res => {
+            if (!res.ok) throw new Error(res.status);
+            return res.blob();
+        })
+        .then(blob => {
+            songCache[url] = URL.createObjectURL(blob);
+            if (track === index) swapToCached();
+        })
+        .catch(err => {
+            delete songCache[url];
+            console.warn("No se pudo precargar la canción:", err);
+        });
+}
+
+// Cambia a la copia en memoria sin perder el punto ni la pausa/reproducción
+function swapToCached() {
+    const cached = songCache[CONFIG.canciones[track]];
+    if (!cached || cached === "cargando" || audio.src === cached) return;
+
+    const time = audio.currentTime;
+    const wasPlaying = !audio.paused;
+
+    audio.src = cached;
+    audio.addEventListener("loadedmetadata", () => {
+        audio.currentTime = time;
+        if (wasPlaying) audio.play().catch(() => {});
+    }, { once: true });
+}
+
 function loadTrack(i) {
     track = (i + CONFIG.canciones.length) % CONFIG.canciones.length;
-    audio.src = CONFIG.canciones[track];
+    const url = CONFIG.canciones[track];
+    const cached = songCache[url];
+    audio.src = cached && cached !== "cargando" ? cached : url;
+    cacheSong(track);
 }
 
 function playMusic() {
