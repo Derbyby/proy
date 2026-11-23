@@ -43,7 +43,8 @@ document.getElementById("open-wishes").addEventListener("click", () => {
 
 let formOpenedAt = 0;
 
-document.getElementById("open-wish-form").addEventListener("click", () => {
+// El formulario se abre con el botón "Escribir" del buzón
+document.getElementById("write-wish").addEventListener("click", () => {
     wishStatus.textContent = "";
     formOpenedAt = Date.now();
     openModal(wishFormModal);

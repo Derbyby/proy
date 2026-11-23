@@ -1,96 +1,123 @@
 /* =========================================
    CONFIGURACIÓN DE LA INVITACIÓN
-   Cambia aquí fechas y enlaces sin tocar el HTML.
+   Cambia aquí fechas, enlaces y canciones sin tocar el HTML.
 ========================================= */
 const CONFIG = {
-    // Inicio del evento (Misa). Formato: AAAA-MM-DDTHH:MM:SS
+    // Inicio del evento. Formato: AAAA-MM-DDTHH:MM:SS
     fechaEvento: "2026-12-05T18:00:00",
 
     // Enlaces de Google Maps. Si uno queda vacío, su botón "Ubicación" se oculta.
-    mapsMisa: "https://maps.app.goo.gl/hJ6YoWABpuF71pyk6",
-    mapsRecepcion: "https://maps.app.goo.gl/GHx2wh75Nm3DNwnQA?g_st=ac"
+    mapsCeremonia: "https://maps.app.goo.gl/hJ6YoWABpuF71pyk6",
+    mapsRecepcion: "https://maps.app.goo.gl/GHx2wh75Nm3DNwnQA?g_st=ac",
+
+    // Canciones del reproductor (se pueden agregar más; ◀◀ y ▶▶ cambian entre ellas)
+    canciones: [
+        "assets/musica/say-yes.mp3"
+    ]
 };
 
 
 /* =========================================
-   ARCHIVOS EXPORTADOS (data-asset)
-   Si el archivo existe se usa; si no, se queda el respaldo en CSS.
+   MÚSICA
+   - La música empieza al tocar "Da click aquí" o ▶
+   - |◀ atrasa y ▶| adelanta 10 segundos
+   - La barra muestra el avance y se puede tocar para saltar
+   - El botón flotante aparece cuando ya sonó la música
 ========================================= */
-document.querySelectorAll("[data-asset]").forEach(el => {
-    const src = el.dataset.asset;
-    const img = new Image();
-    img.onload = () => {
-        el.style.setProperty("--asset", `url("${src}")`);
-        el.classList.add("asset-ok");
-    };
-    img.src = src;
-});
+const SALTO_SEGUNDOS = 10;
 
-
-/* =========================================
-   MÚSICA (misma funcionalidad que antes)
-========================================= */
 const audio = document.getElementById("audio1");
-const playButton = document.getElementById("play-button");
-const pauseButton = document.getElementById("pause-button");
+const musicToggle = document.getElementById("music-toggle");
+const musicFloat = document.getElementById("music-float");
+const progress = document.getElementById("music-progress");
+let track = 0;
+
+function loadTrack(i) {
+    track = (i + CONFIG.canciones.length) % CONFIG.canciones.length;
+    audio.src = CONFIG.canciones[track];
+}
 
 function playMusic() {
+    document.body.classList.add("music-started");
     audio.play().catch(() => console.log("No se pudo reproducir el audio"));
 }
 
-function pauseMusic() {
-    audio.pause();
+function toggleMusic() {
+    if (audio.paused) playMusic();
+    else audio.pause();
+}
+
+function seek(seconds) {
+    if (!isFinite(audio.duration)) return;
+    audio.currentTime = Math.min(Math.max(audio.currentTime + seconds, 0), audio.duration - 0.25);
+    updateProgress();
 }
 
 function updateMusicButtons() {
-    playButton.style.display = audio.paused ? "inline-block" : "none";
-    pauseButton.style.display = audio.paused ? "none" : "inline-block";
+    const playing = !audio.paused;
+    const label = playing ? "Pausar música" : "Reproducir música";
+    document.body.classList.toggle("is-playing", playing);
+    musicToggle.setAttribute("aria-label", label);
+    musicFloat.setAttribute("aria-label", label);
 }
 
-playButton.addEventListener("click", playMusic);
-pauseButton.addEventListener("click", pauseMusic);
+function updateProgress() {
+    const pct = audio.duration ? (audio.currentTime / audio.duration) * 100 : 0;
+    progress.style.setProperty("--p", pct + "%");
+    progress.setAttribute("aria-valuenow", Math.round(pct));
+}
+
+loadTrack(0);
+
+// Con una sola canción se repite; con varias pasa a la siguiente al terminar
+audio.addEventListener("ended", () => {
+    if (CONFIG.canciones.length > 1) loadTrack(track + 1);
+    else audio.currentTime = 0;
+    playMusic();
+});
+
+document.getElementById("music-start").addEventListener("click", () => {
+    if (audio.paused) playMusic();
+});
+musicToggle.addEventListener("click", toggleMusic);
+musicFloat.addEventListener("click", toggleMusic);
+document.getElementById("music-back").addEventListener("click", () => seek(-SALTO_SEGUNDOS));
+document.getElementById("music-forward").addEventListener("click", () => seek(SALTO_SEGUNDOS));
+
+// Tocar o arrastrar sobre la barra para ir a esa parte de la canción
+function seekToPointer(e) {
+    if (!isFinite(audio.duration)) return;
+    const r = progress.getBoundingClientRect();
+    const x = Math.min(Math.max(e.clientX - r.left, 0), r.width);
+    audio.currentTime = (x / r.width) * audio.duration;
+    updateProgress();
+}
+
+progress.addEventListener("pointerdown", e => {
+    progress.setPointerCapture(e.pointerId);
+    seekToPointer(e);
+});
+progress.addEventListener("pointermove", e => {
+    if (progress.hasPointerCapture(e.pointerId)) seekToPointer(e);
+});
+progress.addEventListener("keydown", e => {
+    if (e.key === "ArrowRight") { seek(SALTO_SEGUNDOS); e.preventDefault(); }
+    if (e.key === "ArrowLeft")  { seek(-SALTO_SEGUNDOS); e.preventDefault(); }
+});
+
 audio.addEventListener("play", updateMusicButtons);
 audio.addEventListener("pause", updateMusicButtons);
+audio.addEventListener("timeupdate", updateProgress);
+audio.addEventListener("loadedmetadata", updateProgress);
 updateMusicButtons();
 
 
 /* =========================================
-   SOBRE
-   Secuencia (igual que el video):
-   1. el sello desaparece
-   2. la solapa se abre hacia arriba
-   3. la tarjeta con la foto sube y sale del sobre
-   4. se libera el resto de la invitación
-========================================= */
-const envelope = document.getElementById("envelope");
-const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-function openEnvelope() {
-    if (envelope.classList.contains("is-open")) return;
-
-    envelope.classList.add("is-open");
-    envelope.setAttribute("aria-label", "Invitación abierta");
-    envelope.disabled = true;
-    document.body.classList.add("is-opening");
-
-    playMusic();                       // primer toque = inicia la música
-
-    const total = reduceMotion ? 50 : 2100;
-    setTimeout(() => {
-        document.body.classList.remove("is-sealed");
-        document.body.classList.add("is-opened");
-        startReveal();
-    }, total);
-}
-
-envelope.addEventListener("click", openEnvelope);
-
-
-/* =========================================
-   CONTADOR (lógica de elements/countdown.html)
+   CONTADOR
 ========================================= */
 const target = new Date(CONFIG.fechaEvento).getTime();
 const pad = n => String(n).padStart(2, "0");
+let timer;
 
 function tick() {
     const distance = target - Date.now();
@@ -108,20 +135,23 @@ function tick() {
     document.getElementById("cd-seconds").textContent = pad(Math.floor(distance % 60000 / 1000));
 }
 
-const timer = setInterval(tick, 1000);
+timer = setInterval(tick, 1000);
 tick();
 
 
 /* =========================================
-   BOTONES DE UBICACIÓN
+   BOTONES DE UBICACIÓN (dentro del cuadro SVG)
 ========================================= */
 function setMap(id, url) {
     const link = document.getElementById(id);
-    if (url) link.href = url;
-    else link.hidden = true;
+    if (url) {
+        link.setAttribute("href", url);
+    } else {
+        link.style.display = "none";
+    }
 }
 
-setMap("map-misa", CONFIG.mapsMisa);
+setMap("map-ceremonia", CONFIG.mapsCeremonia);
 setMap("map-recepcion", CONFIG.mapsRecepcion);
 
 
@@ -143,7 +173,9 @@ function startReveal() {
                 observer.unobserve(entry.target);
             }
         });
-    }, { threshold: 0.18, rootMargin: "0px 0px -40px 0px" });
+    }, { threshold: 0.15, rootMargin: "0px 0px -40px 0px" });
 
     items.forEach(el => observer.observe(el));
 }
+
+startReveal();

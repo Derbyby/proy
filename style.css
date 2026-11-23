@@ -1,50 +1,20 @@
 /* =========================================
-   FUENTES
-========================================= */
-
-/* Letra manuscrita del diseño (versión de prueba: revisa su licencia antes de usarla comercialmente) */
-@font-face {
-    font-family: 'GW Bantley';
-    src: url('assets/fonts/GWBantley-Regular-Trial.ttf') format('truetype');
-    font-display: swap;
-}
-
-/* Letra manuscrita de respaldo */
-@font-face {
-    font-family: 'MissFajardose';
-    src: url('assets/fonts/MissFajardose-Regular.ttf') format('truetype');
-    font-display: swap;
-}
-
-/* Espacio para la fuente del diseño (Century Schoolbook).
-   Si exportan el archivo a assets/fonts/CenturySchoolbook.ttf se usa automáticamente;
-   si no, se usa la instalada en el equipo o Libre Baskerville (Google Fonts). */
-@font-face {
-    font-family: 'Century XV';
-    src: local('Century Schoolbook'),
-         local('CenturySchoolbook'),
-         url('assets/fonts/SCHLBKB.TTF') format('truetype');
-    font-display: swap;
-}
-
-/* =========================================
-   VARIABLES
+   INVITACIÓN XV · MARÍA ELENA
+   Diseño: papel rosa, cuadros beige con ornamentos,
+   Parisienne (manuscrita) + Source Serif 4.
 ========================================= */
 
 :root {
-    --script: 'GW Bantley', 'MissFajardose', cursive;
-    --serif: 'Century XV', 'Libre Baskerville', Georgia, serif;
+    --script: 'Parisienne', cursive;
+    --serif: 'Source Serif 4', 'Source Serif Pro', Georgia, serif;
 
-    --pink-title: #f4a0c6;
-    --pink-frame: #f6a5ca;
-    --pink-border: #e2806f;
-    --pink-deep: #dd528d;
-    --pink-text: #e0619b;
-    --pink-soft: #fdd7e8;
-
-    --env-body: #fbc6de;
-    --env-front: #ffd3e7;
-    --env-flap: #f9bcd8;
+    --paper: #f9cfc7;          /* color base del papel (mientras carga la textura) */
+    --card: #edd5c8;           /* fondo de los cuadros */
+    --rose: #d28394;           /* texto de los cuadros */
+    --coral: #e08d94;          /* botones y títulos del buzón */
+    --wine: #630509;           /* contador y texto principal */
+    --taupe: #6b5656;          /* reproductor */
+    --envelope: #e1b0a9;
 
     --ease-out: cubic-bezier(.2, .8, .2, 1);
 }
@@ -69,29 +39,21 @@ body {
     min-height: 100vh;
     overflow-x: hidden;
 
-    background: #ececec;
+    background: var(--paper) url('assets/piezas/papel-rosa.webp') center top / 960px auto repeat;
 
     font-family: var(--serif);
-    color: var(--pink-text);
+    color: var(--wine);
 
     -webkit-tap-highlight-color: transparent;
 }
 
-/* Textura de papel fija (sin cortes al repetir) */
-body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-    background: #ececec url('assets/piezas/papel.svg') center / cover no-repeat;
-}
-
-body.is-sealed {
-    overflow: hidden;
-}
-
 img {
     max-width: 100%;
+    display: block;
+}
+
+button {
+    font: inherit;
 }
 
 .page {
@@ -100,633 +62,538 @@ img {
     max-width: 480px;
     margin: 0 auto;
     overflow: hidden;
-}
 
-/* =========================================
-   ARCHIVOS EXPORTADOS (data-asset)
-========================================= */
-
-.decor {
-    position: absolute;
-    pointer-events: none;
-    background: var(--asset) center / contain no-repeat;
-}
-
-.decor:not(.asset-ok) {
-    display: none;
-}
-
-.decor.asset-ok > svg {
-    display: none;
-}
-
-/* =========================================
-   PORTADA
-========================================= */
-
-.hero {
-    position: relative;
-    container-type: inline-size;         /* los títulos se miden contra el ancho de la invitación */
-    min-height: 100vh;
-    min-height: 100svh;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
-    padding: 40px 0 70px;
-    text-align: center;
-}
-
-.hero-pretitle {
-    margin: 0;
-    /* ~42% del ancho de la invitación en cualquier pantalla */
-    font-size: min(7.6vw, 36.5px);       /* respaldo para navegadores viejos */
-    font-size: 7.6cqi;
-    line-height: 1.2;
-    white-space: nowrap;
-    color: var(--pink-title);
-    animation: fade-down 1s var(--ease-out) both;
-}
-
-.hero-name {
-    margin: 0;
-    font-family: var(--script);
-    font-weight: normal;
-    /* ~80% del ancho de la invitación en cualquier pantalla */
-    font-size: min(21.5vw, 103px);       /* respaldo para navegadores viejos */
-    font-size: 21.5cqi;
-    line-height: 1.15;
-    white-space: nowrap;
-    color: var(--pink-title);
-    animation: fade-down 1s var(--ease-out) .15s both;
-}
-
-
-/* =========================================
-   SOBRE (piezas exportadas de Illustrator)
-   Medidas tomadas de "sobre cerrado_1.svg" (571.74 × 337.51).
-   --w = ancho del sobre; todo lo demás se calcula a partir de él.
-========================================= */
-
-.envelope-stage {
-    --w: min(66vw, 300px);
-    --h: calc(var(--w) * .5903);            /* alto del sobre (337.51 / 571.74) */
-
-    position: relative;
-    width: var(--w);
-    margin-top: calc(var(--w) * .86);       /* espacio para que la tarjeta salga */
-
-    animation: fade-up 1s var(--ease-out) .35s both;
-}
-
-.envelope {
-    position: relative;
-    display: block;
-
-    width: var(--w);
-    height: var(--h);
-
-    padding: 0;
-    border: 0;
-    background: none;
-    cursor: pointer;
-
-    perspective: 700px;
-    filter: drop-shadow(0 12px 18px rgba(190, 90, 135, .22));
-    -webkit-tap-highlight-color: transparent;
-}
-
-.envelope:not(.is-open):hover {
-    animation: wiggle .6s ease;
-}
-
-.envelope:focus-visible {
-    outline: 2px dashed var(--pink-deep);
-    outline-offset: 10px;
-}
-
-.envelope > * {
-    position: absolute;
-    display: block;
-    pointer-events: none;
-    user-select: none;
-    -webkit-user-drag: none;
-}
-
-/* 1. Interior / parte trasera */
-.env-back {
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-}
-
-/* 2. Solapa abierta (apunta hacia arriba, detrás de la tarjeta) */
-.env-flap-open {
-    left: 0;
-    bottom: 100%;
-    width: 100%;
-    height: 59.7%;                           /* 201.52 / 337.51 */
-    z-index: 1;
-
-    transform-origin: bottom center;
-    transform: rotateX(-90deg);
-    opacity: 0;                              /* oculta del todo mientras está cerrado */
-    transition:
-        transform .45s cubic-bezier(.2, .7, .3, 1) .7s,
-        opacity 0s linear .7s;
-}
-
-/* 3. Tarjeta con la foto: el contenedor solo recorta por abajo */
-.env-card-clip {
-    top: calc(var(--w) * -1.6);
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 2;
-    overflow: hidden;
-}
-
-.env-card {
-    position: absolute;
-    top: calc(var(--w) * 1.62);             /* cerrado: escondida dentro del sobre */
-    left: 50%;
-
-    width: 79%;
-    height: auto;
-
-    transform: translate(-50%, 0);
-    transition: transform 1s var(--ease-out) 1.05s;
-}
-
-/* 4. Frente / bolsillo */
-.env-front {
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 3;
-}
-
-/* 5. Solapa cerrada (apunta hacia abajo) */
-.env-flap-closed {
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 63.36%;                          /* 213.85 / 337.51 */
-    z-index: 4;
-
-    transform-origin: top center;
-    transition:
-        transform .4s ease-in .3s,
-        opacity 0s linear .7s;
-}
-
-/* 6. Sello de cera (misma posición que en el diseño) */
-.env-seal {
-    left: 40.4%;
-    top: 40.6%;
-    width: 20.9%;
-    height: auto;
-    z-index: 5;
-
-    transition: opacity .3s ease, transform .35s ease;
-}
-
-/* --- Estado abierto --- */
-.envelope.is-open {
-    cursor: default;
-}
-
-.envelope.is-open .env-seal {
-    opacity: 0;
-    transform: scale(1.35);
-}
-
-.envelope.is-open .env-flap-closed {
-    transform: rotateX(90deg);
-    opacity: 0;
-}
-
-.envelope.is-open .env-flap-open {
-    transform: rotateX(0deg);
-    opacity: 1;
-}
-
-.envelope.is-open .env-card {
-    transform: translate(-50%, calc(var(--w) * -.82));
-}
-
-/* Decoración alrededor del sobre (posiciones del PDF) */
-.decor--flor-sobre {
-    left: 64%;
-    top: calc(var(--w) * -.86);
-    width: 46%;
-    height: calc(var(--w) * .84);
-    z-index: -1;
-
-    /* oculta con el sobre cerrado; aparece cuando sale la tarjeta */
-    opacity: 0;
-    transform: translateY(14px) scale(.92);
-    transform-origin: bottom left;
-    transition:
-        opacity .9s ease 1.2s,
-        transform 1.1s var(--ease-out) 1.2s;
-}
-
-body.is-opening .decor--flor-sobre,
-body.is-opened .decor--flor-sobre {
-    opacity: 1;
-    transform: none;
-}
-
-.decor-img {
-    position: absolute;
-    display: block;
-    pointer-events: none;
-}
-
-.decor--mariposas {
-    left: -12%;
-    top: calc(var(--w) * .37);
-    width: 28%;
-    height: auto;
-    z-index: 6;
-    animation: flutter 3s ease-in-out infinite;
-}
-
-/* Textos de ayuda */
-.open-hint {
-    margin: 34px 0 0;
-    font-size: .8rem;
-    letter-spacing: .22em;
-    text-transform: uppercase;
-    color: var(--pink-title);
-
-    animation: pulse 2s ease-in-out 1.4s infinite;
-    transition: opacity .4s ease;
-}
-
-body.is-opening .open-hint,
-body.is-opened .open-hint {
-    animation: none;
-    opacity: 0;
-}
-
-.scroll-hint {
-    position: absolute;
-    bottom: 22px;
-    left: 50%;
-
-    margin: 0;
-    font-size: .75rem;
-    letter-spacing: .25em;
-    text-transform: uppercase;
-    color: var(--pink-title);
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
-
-    opacity: 0;
-    transform: translateX(-50%);
-    transition: opacity .8s ease .3s;
-}
-
-.scroll-arrow {
-    width: 12px;
-    height: 12px;
-    border-right: 1.5px solid currentColor;
-    border-bottom: 1.5px solid currentColor;
-    transform: rotate(45deg);
-    animation: bounce 1.6s ease-in-out infinite;
-}
-
-body.is-opened .scroll-hint {
-    opacity: 1;
-}
-
-/* =========================================
-   CONTENIDO
-========================================= */
-
-body.is-sealed .content {
-    display: none;
+    container-type: inline-size;          /* las medidas en cqi son % del ancho de la página */
+    background: var(--paper) url('assets/piezas/papel-rosa.webp') left top / 200% auto repeat-y;
+    box-shadow: 0 0 40px rgba(150, 80, 80, .12);
 }
 
 .section {
     position: relative;
-    padding: 44px 0;
+    padding: 9cqi 0;
 }
 
-.section--bleed {
-    padding: 20px 0;
+/* =========================================
+   PORTADA: SOBRE + TARJETA XV
+========================================= */
+
+.hero {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10cqi 0 2cqi;
 }
 
-.section--last {
-    padding-bottom: 0;
+.envelope {
+    position: relative;
+    z-index: 1;
+    width: 64cqi;
+    aspect-ratio: 624 / 367;
+
+    filter: drop-shadow(0 8px 14px rgba(120, 60, 55, .2));
+    animation: drop-in 1s var(--ease-out) both;
 }
 
-.photo-bleed {
+.envelope svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+/* Sello sobre la punta de la solapa */
+.env-seal {
+    position: absolute;
+    left: 50%;
+    top: 60.5%;
+    width: 21%;
+    height: auto;
+
+    transform: translate(-50%, -50%);
+    filter: drop-shadow(0 3px 4px rgba(60, 0, 0, .35));
+}
+
+/* La tarjeta sale del sobre y queda encima de su parte baja */
+.card-xv {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    margin-top: -7cqi;
+
+    animation: card-out 1.3s var(--ease-out) .45s both;
+}
+
+.frame-xv {
+    width: 56cqi;
+    margin: 0 auto;
+    box-shadow: 0 10px 22px rgba(150, 80, 80, .16);
+}
+
+.flower {
+    position: absolute;
+    height: auto;
+    pointer-events: none;
+}
+
+.flower--gladiola {
+    left: 7cqi;
+    bottom: -3cqi;
+    width: 27cqi;
+    animation: fade-in 1s ease 1.3s both;
+}
+
+@keyframes drop-in {
+    from { opacity: 0; transform: translateY(-20px); }
+    to   { opacity: 1; transform: none; }
+}
+
+@keyframes card-out {
+    from { opacity: 0; transform: translateY(-38%) scale(.9); }
+    to   { opacity: 1; transform: none; }
+}
+
+@keyframes fade-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* =========================================
+   CUADROS (marco SVG + texto en la fuente de la página)
+========================================= */
+
+.frame-svg {
+    display: block;
+    height: auto;
+    overflow: visible;
+}
+
+.frame-svg text {
+    fill: var(--rose);
+    text-anchor: middle;
+}
+
+.frame-svg .t-light   { font-family: var(--serif); font-weight: 300; }
+.frame-svg .t-regular { font-family: var(--serif); font-weight: 400; }
+.frame-svg .t-script  { font-family: var(--script); }
+.frame-svg .t-coral   { fill: var(--coral); }
+.frame-svg .t-start   { text-anchor: start; }
+
+/* Botón "Ubicación": el dibujo viene en el marco, aquí solo la zona clicable */
+.map-link {
+    cursor: pointer;
+}
+
+.map-link rect {
+    fill: rgba(255, 255, 255, 0);
+    transition: fill .2s ease;
+}
+
+.map-link:hover rect,
+.map-link:focus-visible rect {
+    fill: rgba(255, 255, 255, .22);
+}
+
+.map-link:focus-visible {
+    outline: none;
+}
+
+.map-link:focus-visible rect {
+    stroke: var(--wine);
+    stroke-width: 2;
+}
+
+/* --- Ceremonia / Recepción --- */
+.frame-events {
+    width: 86cqi;
+    margin: 0 auto;
+    box-shadow: 0 8px 20px rgba(150, 80, 80, .12);
+}
+
+/* --- Peticiones --- */
+.frame-requests {
+    width: 74cqi;
+    margin: 0 auto;
+    box-shadow: 0 8px 20px rgba(150, 80, 80, .12);
+}
+
+/* =========================================
+   REPRODUCTOR "DA CLICK AQUÍ"
+========================================= */
+
+.player {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 10cqi;
+}
+
+.player-title {
+    margin: 0;
+    padding: 0 2cqi;
+    background: none;
+    border: 0;
+    cursor: pointer;
+
+    font-family: var(--script);
+    font-size: 9cqi;
+    line-height: 1.2;
+    color: var(--taupe);
+
+    transition: transform .2s ease, color .2s ease;
+}
+
+.player-title:hover {
+    color: var(--wine);
+}
+
+.player-title:active {
+    transform: scale(.96);
+}
+
+body:not(.music-started) .player-title {
+    animation: pulse 2.2s ease-in-out infinite;
+}
+
+/* Barra de avance: línea del diseño + punto que avanza */
+.player-progress {
+    --p: 0%;
+
+    position: relative;
+    width: 60cqi;
+    height: 22px;
+    margin: 0 0 3cqi;
+    cursor: pointer;
+    touch-action: none;
+}
+
+.player-bar,
+.player-progress::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    height: 2px;
+    transform: translateY(-50%);
+}
+
+.player-progress::before {
+    right: 0;
+    background: var(--taupe);
+    opacity: .45;
+}
+
+.player-bar {
+    width: var(--p);
+    background: var(--taupe);
+}
+
+.player-dot {
+    position: absolute;
+    top: 50%;
+    left: var(--p);
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: var(--taupe);
+    transform: translate(-50%, -50%);
+}
+
+.player-progress:focus-visible {
+    outline: 2px dashed var(--taupe);
+    outline-offset: 2px;
+}
+
+.player-controls {
+    display: flex;
+    align-items: center;
+    gap: 9cqi;
+}
+
+.player-btn {
+    width: 8.5cqi;
+    padding: 0;
+    background: none;
+    border: 0;
+    cursor: pointer;
+    transition: transform .15s ease, opacity .2s ease;
+}
+
+.player-btn svg {
     display: block;
     width: 100%;
     height: auto;
+    fill: var(--taupe);
 }
 
-/* --- Marcos (respaldo CSS mientras no exista el SVG exportado) --- */
+.player-btn:hover {
+    opacity: .8;
+}
 
-.frame {
-    position: relative;
-    margin: 0 auto;
+.player-btn:active {
+    transform: scale(.9);
+}
+
+.player-btn:focus-visible {
+    outline: 2px dashed var(--taupe);
+    outline-offset: 4px;
+}
+
+.icon-pause { display: none !important; }
+body.is-playing .icon-play  { display: none !important; }
+body.is-playing .icon-pause { display: block !important; }
+
+/* =========================================
+   CONTADOR
+========================================= */
+
+.countdown-section {
     text-align: center;
-    color: #fff;
+    padding-bottom: 4cqi;
 }
 
-.frame.asset-ok {
-    background: var(--asset) center / 100% 100% no-repeat !important;
-    border: 0 !important;
-    outline: 0 !important;
-    box-shadow: none !important;
-    border-radius: 0 !important;
-}
-
-.frame.asset-ok::before,
-.frame.asset-ok::after {
-    display: none !important;
-}
-
-.frame-title {
-    margin: 0 0 6px;
+.countdown-title {
+    margin: 0;
     font-family: var(--script);
     font-weight: normal;
-    font-size: 2.7rem;
-    line-height: 1;
-}
-
-.frame-title--small {
-    font-size: 2.1rem;
-    margin-bottom: 14px;
-}
-
-/* Picos superior e inferior de los marcos */
-.frame--counter::before,
-.frame--counter::after,
-.frame--itinerary::before,
-.frame--itinerary::after {
-    content: "";
-    position: absolute;
-    left: 50%;
-    width: 18px;
-    height: 18px;
-    background: var(--pink-frame);
-    border: 3px solid var(--pink-border);
-    transform: translateX(-50%) rotate(45deg);
-}
-
-.frame--counter::before,
-.frame--itinerary::before {
-    top: -11px;
-    border-right: 0;
-    border-bottom: 0;
-}
-
-.frame--counter::after,
-.frame--itinerary::after {
-    bottom: -11px;
-    border-left: 0;
-    border-top: 0;
-}
-
-/* --- Contador --- */
-
-.frame--counter {
-    width: min(86%, 390px);
-    padding: 34px 16px 28px;
-
-    background: var(--pink-frame);
-    border: 3px solid var(--pink-border);
-    border-radius: 50px;
-    outline: 2px dotted var(--pink-border);
-    outline-offset: -12px;
+    font-size: 13cqi;
+    line-height: 1.1;
+    color: var(--wine);
 }
 
 .countdown {
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    gap: 4px;
+    gap: 1cqi;
+    margin-top: 1cqi;
+    font-variant-numeric: tabular-nums;
 }
 
 .cd-unit {
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-width: 2.6ch;
 }
 
 .cd-unit span,
 .cd-sep {
-    font-size: clamp(2.1rem, 10vw, 2.8rem);
-    line-height: 1.05;
-    font-variant-numeric: tabular-nums;
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: 13.5cqi;
+    line-height: 1;
 }
 
 .cd-unit small {
-    margin-top: 2px;
-    font-size: .62rem;
-    letter-spacing: .15em;
+    margin-top: 1.5cqi;
+    font-size: 3.2cqi;
+    letter-spacing: .12em;
     text-transform: uppercase;
+    opacity: .8;
 }
 
 .countdown-done {
+    margin: 2cqi 0 0;
+    font-family: var(--script);
+    font-size: 10cqi;
+}
+
+/* =========================================
+   TEXTO
+========================================= */
+
+.legend {
+    padding: 4cqi 11cqi 6cqi;
+    text-align: center;
+}
+
+.legend p {
     margin: 0;
-    font-size: 1.5rem;
+    font-size: clamp(15px, 4.6cqi, 21px);
+    line-height: 1.42;
+    text-wrap: balance;
 }
 
-/* --- Polaroids --- */
+/* =========================================
+   FOTOS CON FLORES
+========================================= */
 
-.polaroids {
-    padding-top: 30px;
-    padding-bottom: 60px;
+.photo-block {
+    padding: 6cqi 0 12cqi;
 }
 
-.polaroid {
-    width: 46%;
-    margin: 0;
-    padding: 4% 4% 15%;
-
-    background: #fff;
-    box-shadow: 0 10px 24px rgba(0, 0, 0, .12);
+.photo {
+    width: 60cqi;
+    height: auto;
+    box-shadow: 0 10px 24px rgba(90, 40, 40, .18);
 }
 
-.polaroid img {
-    display: block;
-    width: 100%;
-    aspect-ratio: 3 / 4;
-    object-fit: cover;
+.photo-block--right .photo {
+    margin: 0 4cqi 0 auto;
 }
 
-.polaroid--left {
-    margin-left: 7%;
+.photo-block--left .photo {
+    width: 64cqi;
+    margin: 0 auto 0 6cqi;
 }
 
-.polaroid--right {
-    margin: -22% 6% 0 auto;
+.flower--rosa {
+    left: 30cqi;
+    bottom: 12cqi;
+    width: 26cqi;
+    rotate: -17deg;
 }
 
-/* --- Itinerario --- */
-
-.frame--itinerary {
-    width: min(76%, 330px);
-    padding: 60px 22px 56px;
-
-    background: var(--pink-frame);
-    border: 3px solid var(--pink-border);
-    border-radius: 50% / 16%;
-    outline: 2px dotted var(--pink-border);
-    outline-offset: -14px;
+.flower--cerezo {
+    right: 5cqi;
+    bottom: 15cqi;
+    width: 48cqi;
+    transform: scaleX(-1);
+    rotate: 90deg;
 }
 
-.event + .event {
-    margin-top: 14px;
-}
+/* =========================================
+   BUZÓN DE BUENOS DESEOS
+========================================= */
 
-.event-name,
-.event-time {
-    margin: 0;
-    font-size: 1.6rem;
-    line-height: 1.25;
-}
-
-.event-icon {
-    display: block;
-    width: 62px;
-    height: 62px;
-    margin: 8px auto 10px;
-    color: #e9709f;
-    background: var(--asset) center / contain no-repeat;
-}
-
-.event-icon svg {
-    width: 100%;
-    height: 100%;
-}
-
-.event-icon.asset-ok svg {
-    display: none;
-}
-
-.map-button {
-    display: inline-flex;
+.mailbox {
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 4px;
-
-    padding: 5px 12px;
-    border-radius: 8px;
-
-    background: var(--pink-soft);
-    color: #e0679c;
-    font-size: .8rem;
-    text-decoration: none;
-
-    transition: transform .2s ease, background .2s ease;
+    padding-bottom: 14cqi;
 }
 
-.map-button:hover {
-    background: #fff;
-    transform: translateY(-1px);
+.mailbox-title {
+    margin: 0 0 3cqi;
+    width: 70cqi;
+    font-family: var(--script);
+    font-weight: normal;
+    font-size: 10.5cqi;
+    line-height: 1.15;
+    text-align: center;
+    color: var(--coral);
 }
 
-.map-button svg {
-    width: 13px;
-    height: 13px;
-}
-
-.map-button[hidden] {
-    display: none;
-}
-
-/* --- Peticiones especiales --- */
-
-.requests {
-    padding-top: 70px;
-}
-
-.frame--requests {
-    width: 56%;
-    aspect-ratio: .72;
-    margin: 0 0 0 9%;
-    padding: 10%;
+.mailbox-frame {
+    width: 86cqi;
+    aspect-ratio: 818.31 / 488.18;
+    padding: 9cqi 13cqi;
 
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 5cqi;
 
-    background: var(--pink-frame);
-    border: 9px dotted var(--pink-deep);
-    border-radius: 50%;
-    box-shadow:
-        0 0 0 3px var(--pink-deep),
-        inset 0 0 0 3px var(--pink-deep);
-
-    font-size: .95rem;
-    line-height: 1.3;
+    background: url('assets/marcos/marco-buzon.svg') center / 100% 100% no-repeat;
+    text-align: center;
 }
 
-.frame--requests p {
-    margin: 0 0 12px;
-}
-
-.decor--flor-1 {
-    top: 0;
-    right: 0;
-    width: 38%;
-    height: 80%;
-}
-
-/* --- Mesa de regalos --- */
-
-.gifts {
-    padding-top: 30px;
-    padding-bottom: 60px;
-}
-
-.frame--gifts {
-    width: 58%;
-    aspect-ratio: 1.2;
-    margin: 0 6% 0 auto;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border: 2px solid #ec5f9a;
-    border-radius: 42%;
-    outline: 2px solid #ec5f9a;
-    outline-offset: 6px;
-
-    color: #e45b98;
-    font-size: 1.5rem;
-    line-height: 1.3;
-}
-
-.frame--gifts p {
+.mailbox-text {
     margin: 0;
+    font-size: clamp(13px, 3.9cqi, 17px);
+    line-height: 1.4;
+    color: var(--rose);
 }
 
-.decor--flor-2 {
-    top: -40%;
-    left: 0;
-    width: 42%;
-    height: 140%;
+.mailbox-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 3cqi;
+}
+
+/* Botón píldora como el de "Ubicación" */
+.pill-button {
+    padding: .55em 1.4em;
+
+    background: var(--coral);
+    border: 1.5px solid var(--coral);
+    border-radius: 999px;
+
+    color: #fff;
+    font-family: var(--serif);
+    font-size: clamp(13px, 3.7cqi, 16px);
+    line-height: 1.2;
+
+    cursor: pointer;
+    transition: background .2s ease, color .2s ease, transform .15s ease, opacity .2s ease;
+}
+
+.pill-button:hover:not(:disabled) {
+    background: #d77880;
+    border-color: #d77880;
+}
+
+.pill-button:active:not(:disabled) {
+    transform: scale(.96);
+}
+
+.pill-button--outline {
+    background: transparent;
+    color: var(--coral);
+}
+
+.pill-button--outline:hover:not(:disabled) {
+    color: #fff;
+}
+
+.pill-button:disabled {
+    opacity: .6;
+    cursor: wait;
+}
+
+/* =========================================
+   FOTO FINAL
+========================================= */
+
+.section--last {
+    padding: 0 0 16cqi;
+}
+
+.photo-bleed {
+    width: 100%;
+    height: auto;
+}
+
+/* =========================================
+   BOTÓN FLOTANTE DE MÚSICA
+========================================= */
+
+.music-float {
+    position: fixed;
+    right: clamp(12px, 3vw, 30px);
+    bottom: clamp(12px, 3vw, 30px);
+    z-index: 900;
+
+    width: 44px;
+    height: 44px;
+    padding: 11px;
+
+    background: rgba(237, 213, 200, .95);
+    border: 1px solid rgba(210, 131, 148, .45);
+    border-radius: 50%;
+    box-shadow: 0 4px 12px rgba(90, 40, 40, .18);
+
+    cursor: pointer;
+    transition: transform .2s ease;
+}
+
+.music-float svg {
+    width: 100%;
+    height: 100%;
+    fill: var(--taupe);
+}
+
+.music-float:hover {
+    transform: scale(1.08);
+}
+
+body:not(.music-started) .music-float {
+    display: none;
 }
 
 /* =========================================
    ANIMACIONES DE ENTRADA (scroll)
-   Se usan translate/scale para no romper las rotaciones.
 ========================================= */
 
 [data-reveal] {
@@ -738,9 +605,9 @@ body.is-sealed .content {
 }
 
 [data-reveal="up"]    { translate: 0 40px; }
-[data-reveal="left"]  { translate: -60px 0; }
-[data-reveal="right"] { translate: 60px 0; }
-[data-reveal="zoom"]  { scale: .85; }
+[data-reveal="left"]  { translate: -50px 0; }
+[data-reveal="right"] { translate: 50px 0; }
+[data-reveal="zoom"]  { scale: .88; }
 
 [data-reveal].is-visible {
     opacity: 1;
@@ -748,35 +615,19 @@ body.is-sealed .content {
     scale: 1;
 }
 
-@keyframes fade-down {
-    from { opacity: 0; transform: translateY(-18px); }
-    to   { opacity: 1; transform: none; }
+/* Las flores entran un poco después de su foto */
+.flower[data-reveal] {
+    transition-delay: .35s;
 }
 
-@keyframes fade-up {
-    from { opacity: 0; transform: translateY(24px); }
-    to   { opacity: 1; transform: none; }
+@keyframes float {
+    0%, 100% { translate: 0 0; }
+    50%      { translate: 0 -6px; }
 }
 
 @keyframes pulse {
     0%, 100% { opacity: 1; }
     50%      { opacity: .45; }
-}
-
-@keyframes bounce {
-    0%, 100% { translate: 0 0; }
-    50%      { translate: 0 5px; }
-}
-
-@keyframes flutter {
-    0%, 100% { transform: translateY(0) rotate(0); }
-    50%      { transform: translateY(-6px) rotate(-4deg); }
-}
-
-@keyframes wiggle {
-    0%, 100% { transform: rotate(0); }
-    25%      { transform: rotate(-1.5deg); }
-    75%      { transform: rotate(1.5deg); }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -791,96 +642,8 @@ body.is-sealed .content {
 }
 
 /* =========================================
-   BOTÓN DE MÚSICA
+   MODALES DE BUENOS DESEOS
 ========================================= */
-
-.music-button {
-    position: fixed;
-    right: clamp(12px, 3vw, 30px);
-    bottom: clamp(12px, 3vw, 30px);
-    z-index: 900;
-
-    width: 44px;
-    height: 44px;
-    margin: 0;
-
-    background: rgba(255, 255, 255, .92);
-    border: 1px solid rgba(224, 97, 155, .3);
-    border-radius: 50%;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, .12);
-
-    color: var(--pink-text);
-    font-size: .85rem;
-    cursor: pointer;
-
-    transition: transform .2s ease;
-}
-
-.music-button:hover {
-    transform: scale(1.08);
-}
-
-body.is-sealed #audio-container {
-    display: none;
-}
-
-/* =========================================
-   PARED DE BUENOS DESEOS
-========================================= */
-
-:root {
-    --wish-pink: #e0619b;
-    --wish-pink-soft: rgba(224, 97, 155, .35);
-    --wish-cream: #fbf6f8;
-}
-
-/* ---------- Botón en la página ---------- */
-
-.wishes-section {
-    display: flex;
-    justify-content: center;
-    padding-bottom: 60px;
-}
-
-.wishes-open-button {
-    width: min(80%, 340px);
-    padding: 24px 16px 20px;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
-
-    background: var(--pink-frame);
-    border: 3px solid var(--pink-border);
-    border-radius: 40px;
-    outline: 2px dotted var(--pink-border);
-    outline-offset: -11px;
-    box-shadow: 0 8px 22px rgba(212, 98, 150, .2);
-
-    color: #fff;
-    font-family: var(--serif);
-    cursor: pointer;
-
-    transition: box-shadow .2s ease, translate 1s var(--ease-out), opacity .9s ease;
-}
-
-.wishes-open-button:hover {
-    box-shadow: 0 12px 28px rgba(212, 98, 150, .3);
-}
-
-.wishes-open-title {
-    font-family: var(--script);
-    font-size: clamp(2.4rem, 10vw, 3rem);
-    line-height: 1;
-}
-
-.wishes-open-sub {
-    font-size: .8rem;
-    letter-spacing: .04em;
-}
-
-/* ---------- Modales ---------- */
 
 body.modal-open {
     overflow: hidden;
@@ -896,7 +659,7 @@ body.modal-open {
     justify-content: center;
     padding: 16px;
 
-    background: rgba(60, 30, 45, .45);
+    background: rgba(70, 25, 25, .45);
 
     opacity: 0;
     visibility: hidden;
@@ -922,11 +685,11 @@ body.modal-open {
     display: flex;
     flex-direction: column;
 
-    background: var(--wish-cream) url('assets/piezas/papel.svg') center / cover;
-    border-radius: 18px;
+    background: var(--card);
+    border-radius: 6px;
     box-shadow: 0 20px 50px rgba(0, 0, 0, .3);
 
-    color: var(--wish-pink);
+    color: var(--rose);
     font-family: var(--serif);
 
     transform: translateY(20px) scale(.97);
@@ -942,22 +705,23 @@ body.modal-open {
     align-items: center;
     justify-content: space-between;
     padding: 20px 24px 12px;
-    border-bottom: 1px solid var(--wish-pink-soft);
+    border-bottom: 1px solid rgba(210, 131, 148, .35);
 }
 
 .wish-dialog-title {
     margin: 0;
     font-family: var(--script);
     font-weight: normal;
-    font-size: clamp(2.3rem, 9vw, 2.8rem);
-    line-height: 1;
+    font-size: clamp(2.2rem, 9vw, 2.7rem);
+    line-height: 1.1;
+    color: var(--coral);
 }
 
 .wish-close {
     padding: 0 4px;
     background: none;
     border: 0;
-    color: var(--wish-pink);
+    color: var(--rose);
     font-size: 2.2rem;
     line-height: 1;
     cursor: pointer;
@@ -968,8 +732,6 @@ body.modal-open {
     top: 10px;
     right: 14px;
 }
-
-/* ---------- Lista ---------- */
 
 .wishes-list {
     flex: 1;
@@ -986,8 +748,8 @@ body.modal-open {
 .wish-card {
     padding: 14px 16px;
     text-align: center;
-    background: rgba(255, 255, 255, .55);
-    border: 1px solid var(--wish-pink-soft);
+    background: rgba(255, 255, 255, .45);
+    border: 1px solid rgba(210, 131, 148, .35);
 }
 
 .wish-name {
@@ -995,7 +757,8 @@ body.modal-open {
     font-family: var(--script);
     font-weight: normal;
     font-size: 2rem;
-    line-height: 1.1;
+    line-height: 1.15;
+    color: var(--coral);
     overflow-wrap: anywhere;
 }
 
@@ -1003,6 +766,7 @@ body.modal-open {
     margin: 0;
     font-size: .95rem;
     line-height: 1.45;
+    color: var(--wine);
     overflow-wrap: anywhere;
     white-space: pre-line;
 }
@@ -1017,43 +781,11 @@ body.modal-open {
     display: flex;
     justify-content: center;
     padding: 14px 24px 20px;
-    border-top: 1px solid var(--wish-pink-soft);
+    border-top: 1px solid rgba(210, 131, 148, .35);
 }
-
-/* ---------- Botón contorno ---------- */
-
-.wish-outline-button {
-    padding: 8px 20px;
-
-    background: transparent;
-    border: 1px solid var(--wish-pink);
-    outline: 1px solid var(--wish-pink);
-    outline-offset: 3px;
-
-    color: var(--wish-pink);
-    font-family: var(--serif);
-    font-size: .85rem;
-    letter-spacing: .12em;
-
-    cursor: pointer;
-    transition: background .2s ease, color .2s ease;
-}
-
-.wish-outline-button:hover:not(:disabled) {
-    background: var(--wish-pink);
-    color: #fff;
-}
-
-.wish-outline-button:disabled {
-    opacity: .6;
-    cursor: wait;
-}
-
-/* ---------- Formulario ---------- */
 
 .wish-dialog--form {
     max-width: 420px;
-    border-radius: 6px;
 }
 
 .wish-form {
@@ -1069,14 +801,15 @@ body.modal-open {
     margin: 0 0 4px;
     font-family: var(--script);
     font-weight: normal;
-    font-size: clamp(2.3rem, 9vw, 2.7rem);
-    line-height: 1;
+    font-size: clamp(2.2rem, 9vw, 2.6rem);
+    line-height: 1.1;
     text-align: center;
+    color: var(--coral);
 }
 
 .wish-form label {
     margin-top: 6px;
-    font-size: 1.05rem;
+    font-size: 1.02rem;
 }
 
 .wish-form input,
@@ -1084,11 +817,11 @@ body.modal-open {
     width: 100%;
     padding: 12px 14px;
 
-    background: rgba(255, 255, 255, .5);
-    border: 1px solid var(--wish-pink-soft);
-    border-radius: 0;
+    background: rgba(255, 255, 255, .55);
+    border: 1px solid rgba(210, 131, 148, .45);
+    border-radius: 4px;
 
-    color: var(--wish-pink);
+    color: var(--wine);
     font-family: var(--serif);
     font-size: 1rem;
     text-align: center;
@@ -1101,14 +834,14 @@ body.modal-open {
 
 .wish-form input::placeholder,
 .wish-form textarea::placeholder {
-    color: var(--wish-pink);
-    opacity: .55;
+    color: var(--rose);
+    opacity: .7;
 }
 
 .wish-form input:focus,
 .wish-form textarea:focus {
     outline: none;
-    border-color: var(--wish-pink);
+    border-color: var(--coral);
 }
 
 .wish-status {
@@ -1118,9 +851,9 @@ body.modal-open {
     text-align: center;
 }
 
-.wish-form .wish-outline-button {
+.wish-form .pill-button {
     margin-top: 6px;
-    padding: 10px 46px;
+    padding: .6em 3em;
 }
 
 /* Campo trampa anti-bots */
@@ -1131,301 +864,6 @@ body.modal-open {
     height: 1px !important;
     opacity: 0 !important;
 }
-
-
-/* =========================================
-   AJUSTES PARA LAS PIEZAS EXPORTADAS
-   (marcos, polaroids y botón con las proporciones del PDF)
-========================================= */
-
-/* Marcos: misma proporción que su SVG para que no se deformen */
-.frame--counter,
-.frame--itinerary,
-.frame--requests,
-.frame--gifts {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-.frame--counter {
-    width: min(88%, 400px);
-    aspect-ratio: 906.89 / 535.81;
-    padding: 0 12%;
-}
-
-.frame--counter .frame-title {
-    font-size: clamp(2.2rem, 10vw, 2.9rem);
-    margin-bottom: 0;
-}
-
-.frame--itinerary {
-    width: min(80%, 340px);
-    aspect-ratio: 832.65 / 1460.43;
-    padding: 14% 12%;
-}
-
-.frame--itinerary .frame-title {
-    font-size: clamp(2.4rem, 11vw, 3rem);
-    margin-bottom: 10px;
-}
-
-.frame--requests {
-    width: min(56%, 280px);
-    aspect-ratio: 682.57 / 914.23;
-    margin-left: 8%;
-    padding: 16% 15%;
-    font-size: clamp(.78rem, 3.4vw, .95rem);
-}
-
-.frame--requests .frame-title--small {
-    font-size: clamp(1.7rem, 7.6vw, 2.1rem);
-    line-height: 1;
-    margin-bottom: 10px;
-}
-
-.frame--gifts {
-    width: min(52%, 260px);
-    aspect-ratio: 585.17 / 525.21;
-    margin-right: 7%;
-    color: #ef71a8;
-    font-size: clamp(1.05rem, 4.8vw, 1.35rem);
-}
-
-/* Iconos y botón "Ubicación" como en btn-ubicacion.svg */
-.event-icon {
-    width: 70px;
-    height: 70px;
-}
-
-.map-button {
-    padding: 6px 16px;
-    border-radius: 999px;
-    background: #ffd3e7;
-    color: #ef71a8;
-    font-family: var(--serif);
-    font-size: .85rem;
-}
-
-.map-button svg {
-    width: 15px;
-    height: 15px;
-}
-
-/* Polaroids: el SVG ya trae el marco blanco y la inclinación */
-.polaroid {
-    width: 44%;
-    padding: 0;
-    background: none;
-    box-shadow: none;
-    filter: drop-shadow(0 10px 16px rgba(0, 0, 0, .14));
-}
-
-.polaroid img {
-    aspect-ratio: auto;
-    object-fit: contain;
-    height: auto;
-}
-
-.polaroid--left {
-    margin-left: 5%;
-}
-
-.polaroid--right {
-    margin: -38% 5% 0 auto;
-}
-
-/* Lirios decorativos junto a peticiones y regalos */
-.decor--flor-1 {
-    top: 2%;
-    right: 2%;
-    width: 34%;
-    height: 90%;
-}
-
-.decor--flor-2 {
-    top: -30%;
-    left: 3%;
-    width: 36%;
-    height: 130%;
-}
-
-/* Botón de Buenos Deseos con el mismo marco del contador */
-.wishes-open-button {
-    width: min(82%, 360px);
-    aspect-ratio: 906.89 / 535.81;
-    justify-content: center;
-    padding: 0 12%;
-
-    background: url('assets/marcos/marco-contador.svg') center / 100% 100% no-repeat;
-    border: 0;
-    outline: 0;
-    border-radius: 0;
-    box-shadow: none;
-    filter: drop-shadow(0 8px 14px rgba(212, 98, 150, .18));
-}
-
-.wishes-open-button:hover {
-    box-shadow: none;
-    filter: drop-shadow(0 12px 18px rgba(212, 98, 150, .28));
-}
-
-/* =========================================
-   BARRAS DE SCROLL (rosa, a juego con la invitación)
-   - scrollbar-color / scrollbar-width: Chrome, Edge y Firefox actuales
-   - ::-webkit-scrollbar: Safari y navegadores anteriores
-========================================= */
-
-html {
-    scrollbar-width: thin;
-    scrollbar-color: #f4a0c6 #f6eef1;
-}
-
-::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
-}
-
-::-webkit-scrollbar-track {
-    background: #f6eef1;
-}
-
-::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, #f8b5d3, #ec8fb8);
-    border: 2px solid #f6eef1;      /* deja un margen para que se vea como una píldora */
-    border-radius: 999px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(180deg, #f4a0c6, #e0619b);
-}
-
-::-webkit-scrollbar-corner {
-    background: transparent;
-}
-
-/* Lista de Buenos Deseos: más delgada y sobre el papel del cuadro */
-.wishes-list,
-.wish-form textarea {
-    scrollbar-width: thin;
-    scrollbar-color: rgba(224, 97, 155, .55) transparent;
-}
-
-.wishes-list::-webkit-scrollbar,
-.wish-form textarea::-webkit-scrollbar {
-    width: 6px;
-}
-
-.wishes-list::-webkit-scrollbar-track,
-.wish-form textarea::-webkit-scrollbar-track {
-    background: rgba(224, 97, 155, .08);
-    border-radius: 999px;
-    margin: 6px 0;
-}
-
-.wishes-list::-webkit-scrollbar-thumb,
-.wish-form textarea::-webkit-scrollbar-thumb {
-    background: rgba(224, 97, 155, .55);
-    border: 0;
-    border-radius: 999px;
-}
-
-.wishes-list::-webkit-scrollbar-thumb:hover,
-.wish-form textarea::-webkit-scrollbar-thumb:hover {
-    background: #e0619b;
-}
-
-
-/* =========================================
-   TEXTOS PROPORCIONALES A SU MARCO
-   Cada marco es un "contenedor": sus textos se miden en cqi
-   (1cqi = 1% del ancho del marco). Sin relleno en porcentaje
-   (ese se calcula sobre la sección, no sobre el marco); en su
-   lugar cada texto tiene un ancho máximo relativo al marco.
-   Así el contenido crece y se encoge junto con el marco y
-   nunca se sale, en ninguna pantalla.
-========================================= */
-
-.frame,
-.wishes-open-button {
-    container-type: inline-size;
-    padding: 0 !important;
-}
-
-.frame > *,
-.wishes-open-button > * {
-    max-width: 76%;
-}
-
-/* Contador */
-.frame--counter .frame-title { font-size: 12cqi; margin-bottom: 0; }
-.frame--counter .cd-unit span,
-.frame--counter .cd-sep { font-size: 11.5cqi; }
-.frame--counter .cd-unit small { font-size: 2.8cqi; letter-spacing: .12em; }
-.frame--counter .countdown-done { font-size: 7cqi; }
-
-/* Itinerario */
-.frame--itinerary .frame-title {
-    font-size: 13cqi;
-    margin-bottom: 3cqi;
-}
-
-.frame--itinerary .event-name,
-.frame--itinerary .event-time {
-    font-size: 8.5cqi;
-    line-height: 1.2;
-}
-
-.frame--itinerary .event + .event { margin-top: 4cqi; }
-
-.frame--itinerary .event-icon {
-    width: 19cqi;
-    height: 19cqi;
-    margin: 2.5cqi auto 3cqi;
-}
-
-.frame--itinerary .map-button {
-    gap: 1.5cqi;
-    padding: 1.6cqi 5cqi;
-    font-size: 4.6cqi;
-}
-
-.frame--itinerary .map-button svg {
-    width: 4.6cqi;
-    height: 4.6cqi;
-}
-
-/* Peticiones especiales (el óvalo interior es más angosto) */
-.frame--requests {
-    width: min(60%, 290px);
-}
-
-.frame--requests > * {
-    max-width: 68%;
-}
-
-.frame--requests .frame-title--small {
-    font-size: 10.5cqi;
-    margin-bottom: 4cqi;
-}
-
-.frame--requests p {
-    margin: 0 0 4cqi;
-    font-size: 5.8cqi;
-    line-height: 1.3;
-}
-
-/* Lluvia de sobres */
-.frame--gifts p {
-    font-size: 10cqi;
-    line-height: 1.25;
-}
-
-/* Botón de Buenos Deseos */
-.wishes-open-title { font-size: 12cqi; }
-.wishes-open-sub   { font-size: 4cqi; }
-
 
 /* Tarjetas "fantasma" mientras se descarga la primera lista */
 .wish-card--skeleton {
@@ -1441,7 +879,7 @@ html {
     height: 10px;
     width: 80%;
     border-radius: 999px;
-    background: linear-gradient(90deg, rgba(224, 97, 155, .12) 25%, rgba(224, 97, 155, .28) 50%, rgba(224, 97, 155, .12) 75%);
+    background: linear-gradient(90deg, rgba(210, 131, 148, .15) 25%, rgba(210, 131, 148, .32) 50%, rgba(210, 131, 148, .15) 75%);
     background-size: 200% 100%;
     animation: shimmer 1.2s linear infinite;
 }
@@ -1452,4 +890,34 @@ html {
 @keyframes shimmer {
     from { background-position: 200% 0; }
     to   { background-position: -200% 0; }
+}
+
+/* =========================================
+   BARRAS DE SCROLL
+========================================= */
+
+html {
+    scrollbar-width: thin;
+    scrollbar-color: #e3a3a6 #f6ddd8;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f6ddd8;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #e3a3a6;
+    border: 2px solid #f6ddd8;
+    border-radius: 999px;
+}
+
+.wishes-list,
+.wish-form textarea {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(210, 131, 148, .6) transparent;
 }

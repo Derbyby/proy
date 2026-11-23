@@ -7,178 +7,176 @@
 
     <title>Mis XV Años · María Elena</title>
     <meta name="description" content="Invitación a los XV años de María Elena · 5 de diciembre de 2026">
-    <meta name="theme-color" content="#f8a8cd">
+    <meta name="theme-color" content="#f6c9c1">
 
-    <!-- Favicon (mariposa) -->
-    <link rel="icon" href="assets/favicon/favicon.svg" type="image/svg+xml">
-    <link rel="icon" href="assets/favicon/favicon-32.png" type="image/png" sizes="32x32">
-    <link rel="apple-touch-icon" href="assets/favicon/apple-touch-icon.png">
+    <link rel="icon" href="assets/favicon/favicon.svg?v=2" type="image/svg+xml">
+    <link rel="icon" href="assets/favicon/favicon-32.png?v=2" type="image/png" sizes="32x32">
+    <link rel="apple-touch-icon" href="assets/favicon/apple-touch-icon.png?v=2">
 
+    <!-- Fuentes del diseño: Parisienne (manuscrita) y Source Serif 4 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital@0;1&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Parisienne&family=Source+Serif+4:opsz,wght@8..60,300;8..60,400&display=swap" rel="stylesheet">
+
+    <link rel="preload" as="image" href="assets/piezas/papel-rosa.webp">
+    <link rel="preload" as="image" href="assets/marcos/marco-xv.svg">
+    <link rel="preload" as="image" href="assets/piezas/sello-cera.webp">
 
     <link rel="stylesheet" href="style.css">
 </head>
 
-<!--
-    ARCHIVOS DECORATIVOS PENDIENTES
-    Todo lo que tiene data-asset="assets/..." se carga solo cuando el archivo existe.
-    Mientras no exista se muestra un respaldo hecho en CSS (o nada, si es solo decoración).
-    Lista completa de archivos: assets/LEEME.md
--->
-
-<body class="is-sealed">
+<body>
 
     <main class="page">
 
         <!-- =========================================
-             PORTADA + SOBRE
+             PORTADA: SOBRE + TARJETA QUE SALE DE ÉL
         ========================================== -->
-        <section class="hero">
+        <section class="hero" id="inicio">
 
-            <p class="hero-pretitle">Mis XV Años</p>
-            <h1 class="hero-name">María Elena</h1>
-
-            <div class="envelope-stage">
-
-                <!-- Flor detrás del sobre -->
-                <span class="decor decor--flor-sobre" data-asset="assets/piezas/flor-1.svg" aria-hidden="true"></span>
-
-                <!-- SOBRE: capas de atrás hacia adelante -->
-                <button type="button" id="envelope" class="envelope" aria-label="Abrir invitación">
-                    <img class="env-back"        src="assets/piezas/sobre/sobre-atras.svg"  alt="" draggable="false">
-                    <img class="env-flap-open"   src="assets/piezas/sobre/sobre-abajo.svg"  alt="" draggable="false">
-                    <span class="env-card-clip">
-                        <img class="env-card"    src="assets/fotos/foto-sobre.webp" alt="María Elena con su caballo · 5-12-2026" draggable="false">
-                    </span>
-                    <img class="env-front"       src="assets/piezas/sobre/sobre-frente.svg" alt="" draggable="false">
-                    <img class="env-flap-closed" src="assets/piezas/sobre/sobre-solapa.svg" alt="" draggable="false">
-                    <img class="env-seal"        src="assets/piezas/sobre/sello.webp"       alt="" draggable="false">
-                </button>
-
-                <!-- Mariposas -->
-                <img class="decor-img decor--mariposas" src="assets/piezas/mariposas.svg" alt="" aria-hidden="true">
+            <div class="envelope" aria-hidden="true">
+                <svg viewBox="0 0 624 367">
+                    <rect width="624" height="367" fill="#e1b0a9" />
+                    <g stroke="#cbb9b3" stroke-width="2" stroke-linejoin="round">
+                        <polygon points="0 0 306 154 0 367" fill="#e1b0a9" />
+                        <polygon points="624 0 318 154 624 367" fill="#e1b0a9" />
+                        <path fill="#dfaca5" d="M624,367 L347,162.5 S341.6,157 333.3,152.4 C326.3,147.7 319.2,146 312.6,146.2 C306,146 298.9,147.7 291.9,152.4 C283.6,157 278.2,162.5 278.2,162.5 L0,367 Z" />
+                    </g>
+                    <polygon points="0 334 291 147 306 154 0 367" fill="#c0a39d" opacity=".35" />
+                    <polygon points="624 341 335 145 318 154 624 367" fill="#c0a39d" opacity=".35" />
+                    <!-- Solapa cerrada (apunta hacia abajo) -->
+                    <path transform="translate(0 222) scale(1 -1)" fill="#e1b0a9" stroke="#cbb9b3" stroke-width="2" stroke-linejoin="round"
+                          d="M624,222 L346,17.7 S340.6,12.2 332.3,7.6 C325.3,2.9 318.2,1.2 311.6,1.4 C305,1.2 297.9,2.9 290.9,7.6 C282.6,12.2 277.2,17.7 277.2,17.7 L0,222 Z" />
+                </svg>
+                <img class="env-seal" src="assets/piezas/sello-cera.webp" alt="" draggable="false">
             </div>
 
-            <p class="open-hint">Toca el sobre para abrir</p>
-            <p class="scroll-hint" aria-hidden="true">Desliza<span class="scroll-arrow"></span></p>
+            <div class="card-xv">
+                <svg class="frame-svg frame-xv" viewBox="0 0 617.95 864.57" role="img" aria-labelledby="xv-title">
+                    <title id="xv-title">Tengo el honor de invitarte a mis XV, María Elena, 5 de diciembre de 2026</title>
+                    <image href="assets/marcos/marco-xv.svg" width="617.95" height="864.57" />
+                    <text class="t-light" x="309" y="117.35" font-size="44.75">Tengo el honor</text>
+                    <text class="t-light" x="309" y="171.04" font-size="44.75">de invitarte a:</text>
+                    <text class="t-light" x="309" y="315.54" font-size="90.85">Mis XV</text>
+                    <text class="t-regular" x="309" y="797.88" font-size="49">5-12-2026</text>
+                </svg>
+                <img class="flower flower--gladiola" src="assets/piezas/flor-gladiola.webp" width="319" height="700" alt="" aria-hidden="true">
+            </div>
         </section>
 
 
         <!-- =========================================
-             CONTENIDO (se muestra al abrir el sobre)
+             CONTENIDO
         ========================================== -->
         <div class="content" id="content">
 
+            <!-- REPRODUCTOR DE MÚSICA -->
+            <section class="section player" data-reveal="up">
+                <button type="button" id="music-start" class="player-title">Da click aquí</button>
+                <div class="player-progress" id="music-progress" role="slider" tabindex="0"
+                     aria-label="Avance de la canción" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                    <span class="player-bar"></span>
+                    <span class="player-dot"></span>
+                </div>
+                <div class="player-controls">
+                    <button type="button" id="music-back" class="player-btn" aria-label="Atrasar 10 segundos">
+                        <svg viewBox="0 0 40 48" aria-hidden="true"><rect x="2" y="2" width="3" height="44" /><polygon points="38 6 38 42 8 24" /></svg>
+                    </button>
+                    <button type="button" id="music-toggle" class="player-btn player-btn--main" aria-label="Reproducir música">
+                        <svg class="icon-play" viewBox="0 0 40 48" aria-hidden="true"><polygon points="4 6 4 42 36 24" /></svg>
+                        <svg class="icon-pause" viewBox="0 0 40 48" aria-hidden="true"><rect x="6" y="6" width="9" height="36" /><rect x="25" y="6" width="9" height="36" /></svg>
+                    </button>
+                    <button type="button" id="music-forward" class="player-btn" aria-label="Adelantar 10 segundos">
+                        <svg viewBox="0 0 40 48" aria-hidden="true"><polygon points="2 6 2 42 32 24" /><rect x="35" y="2" width="3" height="44" /></svg>
+                    </button>
+                </div>
+            </section>
+
             <!-- CONTADOR -->
-            <section class="section">
-                <div class="frame frame--counter" data-asset="assets/marcos/marco-contador.svg" data-reveal="zoom">
-                    <p class="frame-title">Faltan:</p>
-                    <div class="countdown" id="countdown">
-                        <div class="cd-unit"><span id="cd-days">00</span><small>días</small></div>
-                        <span class="cd-sep">:</span>
-                        <div class="cd-unit"><span id="cd-hours">00</span><small>horas</small></div>
-                        <span class="cd-sep">:</span>
-                        <div class="cd-unit"><span id="cd-minutes">00</span><small>min</small></div>
-                        <span class="cd-sep">:</span>
-                        <div class="cd-unit"><span id="cd-seconds">00</span><small>seg</small></div>
-                    </div>
+            <section class="section countdown-section" data-reveal="zoom">
+                <h2 class="countdown-title">Faltan</h2>
+                <div class="countdown" id="countdown">
+                    <div class="cd-unit"><span id="cd-days">00</span><small>días</small></div>
+                    <span class="cd-sep">:</span>
+                    <div class="cd-unit"><span id="cd-hours">00</span><small>horas</small></div>
+                    <span class="cd-sep">:</span>
+                    <div class="cd-unit"><span id="cd-minutes">00</span><small>min</small></div>
+                    <span class="cd-sep">:</span>
+                    <div class="cd-unit"><span id="cd-seconds">00</span><small>seg</small></div>
                 </div>
             </section>
 
-            <!-- POLAROIDS -->
-            <section class="section polaroids">
-                <figure class="polaroid polaroid--left" data-reveal="left">
-                    <img src="assets/fotos/foto-polaroid-1.webp" alt="María Elena en el campo" loading="lazy">
-                </figure>
-                <figure class="polaroid polaroid--right" data-reveal="right">
-                    <img src="assets/fotos/foto-polaroid-2.webp" alt="María Elena a caballo" loading="lazy">
-                </figure>
+            <!-- TEXTO -->
+            <section class="section legend" data-reveal="up">
+                <p>Porque este es un día muy importante para mí quiero compartirlo con las personas que llevo en el corazón. Ya que eres una de ellas, quisiera que estés presente en uno de los días más inolvidables de mi vida.</p>
             </section>
 
-            <!-- ITINERARIO -->
-            <section class="section">
-                <div class="frame frame--itinerary" data-asset="assets/marcos/marco-itinerario.svg" data-reveal="up">
-                    <h2 class="frame-title">Itinerario</h2>
-
-                    <div class="event">
-                        <p class="event-name">Misa</p>
-                        <p class="event-time">6:00 pm</p>
-                        <span class="event-icon" data-asset="assets/piezas/icono-misa.svg" aria-hidden="true">
-                            <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
-                                <path d="M32 4v10M27 8h10" />
-                                <path d="M20 26l12-12 12 12" />
-                                <path d="M22 24v34h20V24" />
-                                <path d="M10 58V38l12-8M54 58V38l-12-8" />
-                                <path d="M28 58V46a4 4 0 0 1 8 0v12M6 58h52" />
-                                <path d="M15 44v6M49 44v6" />
-                                <circle cx="32" cy="32" r="3" />
-                            </svg>
-                        </span>
-                        <a class="map-button" id="map-misa" target="_blank" rel="noopener">
-                            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a7 7 0 0 0-7 7c0 5.3 7 13 7 13s7-7.7 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>
-                            Ubicación
-                        </a>
-                    </div>
-
-                    <div class="event">
-                        <p class="event-name">Recepción</p>
-                        <p class="event-time">9:00 pm</p>
-                        <span class="event-icon" data-asset="assets/piezas/icono-recepcion.svg" aria-hidden="true">
-                            <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
-                                <path d="M30 6h24l-2 10a10 10 0 0 1-20 0z" />
-                                <path d="M33 13h18" />
-                                <path d="M42 26v14M36 42h12" />
-                                <path d="M8 58l6-14c2-4 6-6 10-5l8 2c2 .6 2 3.5-.5 3.8L24 46" />
-                                <path d="M14 44l10 2 10-6c2-1.2 4 1 2.6 2.8L28 52l-14 6" />
-                            </svg>
-                        </span>
-                        <a class="map-button" id="map-recepcion" target="_blank" rel="noopener">
-                            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a7 7 0 0 0-7 7c0 5.3 7 13 7 13s7-7.7 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>
-                            Ubicación
-                        </a>
-                    </div>
-                </div>
+            <!-- FOTO 1 -->
+            <section class="section photo-block photo-block--right">
+                <img class="photo" src="assets/fotos/foto-caballo-montada.webp" width="933" height="1400" alt="María Elena montando a su caballo" loading="lazy" data-reveal="right">
+                <img class="flower flower--rosa" src="assets/piezas/flor-rosa.webp" width="388" height="700" alt="" aria-hidden="true" loading="lazy" data-reveal="up">
             </section>
 
-            <!-- FOTO CON CABALLO -->
-            <section class="section section--bleed">
-                <img src="assets/fotos/foto-caballo.svg" alt="María Elena acariciando a su caballo" class="photo-bleed" loading="lazy" data-reveal="fade">
+            <!-- CEREMONIA Y RECEPCIÓN -->
+            <section class="section card-events">
+                <svg class="frame-svg frame-events" viewBox="0 0 617.95 864.57" role="group" aria-label="Ceremonia y recepción" data-reveal="up">
+                    <image href="assets/marcos/marco-eventos.svg" width="617.95" height="864.57" />
+
+                    <text class="t-script" x="309" y="220.06" font-size="99.89">Ceremonia</text>
+                    <text class="t-light" x="309" font-size="23.84">
+                        <tspan x="309" y="262.37">Hacienda Jazmin</tspan>
+                        <tspan x="309" y="290.97">Calle Cádiz #419 Col. Ex Hacienda</tspan>
+                        <tspan x="309" y="319.57">Los Ángeles, Torreón, México, 27265</tspan>
+                    </text>
+                    <a id="map-ceremonia" class="map-link" target="_blank" rel="noopener" aria-label="Ver ubicación de la ceremonia en Google Maps">
+                        <rect x="226.54" y="365.51" width="164.88" height="49.33" rx="24.67" />
+                    </a>
+
+                    <text class="t-script" x="309" y="517.28" font-size="99.89">Recepción</text>
+                    <text class="t-light" x="309" font-size="22.58">
+                        <tspan x="309" y="585.62">Parroquia de Todos los Santos</tspan>
+                        <tspan x="309" y="612.72">Calzada Territorio Santos Modelo.1-A,</tspan>
+                        <tspan x="309" y="639.82">Conjunto de Todos los Santos, Torreón, México, 27014</tspan>
+                    </text>
+                    <a id="map-recepcion" class="map-link" target="_blank" rel="noopener" aria-label="Ver ubicación de la recepción en Google Maps">
+                        <rect x="226.54" y="683.12" width="164.88" height="49.33" rx="24.67" />
+                    </a>
+                </svg>
+            </section>
+
+            <!-- FOTO 2 -->
+            <section class="section photo-block photo-block--left">
+                <img class="photo" src="assets/fotos/foto-caballo-cielo.webp" width="933" height="1400" alt="María Elena abrazando a su caballo" loading="lazy" data-reveal="left">
+                <img class="flower flower--cerezo" src="assets/piezas/flor-cerezo.webp" width="1000" height="666" alt="" aria-hidden="true" loading="lazy" data-reveal="up">
             </section>
 
             <!-- PETICIONES ESPECIALES -->
-            <section class="section requests">
-                <span class="decor decor--flor-1" data-asset="assets/piezas/flor-1.svg" aria-hidden="true" data-reveal="fade"></span>
-
-                <div class="frame frame--requests" data-asset="assets/marcos/marco-peticiones.svg" data-reveal="left">
-                    <h2 class="frame-title frame-title--small">Peticiones<br>Especiales</h2>
-                    <p>Código de vestimenta:<br>Color Negro</p>
-                    <p>No niños<br>Llegar a tiempo</p>
-                </div>
+            <section class="section card-requests">
+                <svg class="frame-svg frame-requests" viewBox="0 0 617.95 864.57" role="group" aria-label="Peticiones especiales" data-reveal="up">
+                    <image href="assets/marcos/marco-peticiones.svg" width="617.95" height="864.57" />
+                    <text class="t-script t-coral" x="309" y="188.28" font-size="105.3">Peticiones</text>
+                    <text class="t-script t-coral" x="309" y="276.28" font-size="105.3">Especiales</text>
+                    <text class="t-regular t-coral t-start" x="183.64" y="429.57" font-size="60.7">Vestimenta</text>
+                    <text class="t-regular t-coral t-start" x="220.85" y="502.41" font-size="60.7">de Negro</text>
+                    <text class="t-regular t-coral t-start" x="126.06" y="585.06" font-size="60.7">Lluvia de sobres</text>
+                </svg>
             </section>
 
-            <!-- MESA DE REGALOS -->
-            <section class="section gifts">
-                <span class="decor decor--flor-2" data-asset="assets/piezas/flor-2.svg" aria-hidden="true" data-reveal="fade"></span>
-
-                <!-- El texto va en HTML (no dentro del SVG) para que use la fuente de la página en cualquier celular -->
-                <div class="frame frame--gifts" data-asset="assets/marcos/marco-lluvia-sin-texto.svg" data-reveal="right">
-                    <p>Lluvia<br>de<br>sobres</p>
+            <!-- BUZÓN DE BUENOS DESEOS -->
+            <section class="section mailbox" data-reveal="up">
+                <h2 class="mailbox-title">Buzón de buenos deseos</h2>
+                <div class="mailbox-frame">
+                    <p class="mailbox-text">Déjale un mensaje a María Elena o lee lo que otros le escribieron.</p>
+                    <div class="mailbox-actions">
+                        <button type="button" id="open-wishes" class="pill-button">Ver mensajes</button>
+                        <button type="button" id="write-wish" class="pill-button pill-button--outline">Escribir</button>
+                    </div>
                 </div>
-            </section>
-
-            <!-- BUENOS DESEOS (botón) -->
-            <section class="section wishes-section">
-                <button type="button" id="open-wishes" class="wishes-open-button" data-reveal="up">
-                    <span class="wishes-open-title">Buenos Deseos</span>
-                    <span class="wishes-open-sub">Toca para ver y dejar un mensaje</span>
-                </button>
             </section>
 
             <!-- FOTO FINAL -->
-            <section class="section section--bleed section--last">
-                <img src="assets/fotos/foto-final.svg" alt="María Elena con su vestido" class="photo-bleed" loading="lazy" data-reveal="fade">
+            <section class="section section--last">
+                <img class="photo-bleed" src="assets/fotos/foto-final.webp" width="1400" height="933" alt="María Elena acariciando a su caballo" loading="lazy" data-reveal="fade">
             </section>
 
         </div>
@@ -189,15 +187,12 @@
     <div id="wishes-modal" class="wish-modal" aria-hidden="true">
         <div class="wish-dialog" role="dialog" aria-modal="true" aria-labelledby="wishes-title">
             <div class="wish-dialog-header">
-                <h2 id="wishes-title" class="wish-dialog-title">Buenos Deseos</h2>
+                <h2 id="wishes-title" class="wish-dialog-title">Buenos deseos</h2>
                 <button type="button" class="wish-close" data-close aria-label="Cerrar">&times;</button>
             </div>
 
             <div id="wishes-list" class="wishes-list"></div>
 
-            <div class="wish-dialog-footer">
-                <button type="button" id="open-wish-form" class="wish-outline-button">ENVIAR BUENOS DESEOS</button>
-            </div>
         </div>
     </div>
 
@@ -207,7 +202,7 @@
             <button type="button" class="wish-close wish-close--corner" data-close aria-label="Cerrar">&times;</button>
 
             <form id="wish-form" class="wish-form" autocomplete="off">
-                <h2 id="wish-form-title" class="wish-form-title">Enviar Buenos Deseos</h2>
+                <h2 id="wish-form-title" class="wish-form-title">Enviar buenos deseos</h2>
 
                 <label for="wish-nombre">Nombre</label>
                 <input id="wish-nombre" name="nombre" type="text" maxlength="60" placeholder="Familia Hernández" required>
@@ -220,20 +215,18 @@
 
                 <p id="wish-status" class="wish-status" aria-live="polite"></p>
 
-                <button type="submit" id="wish-submit" class="wish-outline-button">ENVIAR</button>
+                <button type="submit" id="wish-submit" class="pill-button">Enviar</button>
             </form>
         </div>
     </div>
 
 
-    <!-- AUDIO -->
-    <div id="audio-container">
-        <audio id="audio1" loop preload="auto">
-            <source src="assets/musica/coldplay-ins.mp3" type="audio/mpeg">
-        </audio>
-        <button id="play-button" class="music-button" aria-label="Reproducir música">▶</button>
-        <button id="pause-button" class="music-button" aria-label="Pausar música">Ⅱ</button>
-    </div>
+    <!-- AUDIO (la lista de canciones está en main.js → CONFIG.canciones) -->
+    <audio id="audio1" preload="auto"></audio>
+    <button type="button" id="music-float" class="music-float" aria-label="Pausar música">
+        <svg class="icon-play" viewBox="0 0 40 48" aria-hidden="true"><polygon points="8 8 8 40 34 24" /></svg>
+        <svg class="icon-pause" viewBox="0 0 40 48" aria-hidden="true"><rect x="9" y="9" width="8" height="30" /><rect x="23" y="9" width="8" height="30" /></svg>
+    </button>
 
     <script src="main.js"></script>
     <script src="elements/wishes.js"></script>
